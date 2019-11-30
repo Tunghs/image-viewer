@@ -6,25 +6,35 @@
         xmlns:local="clr-namespace:Imgae_Viewer"
         mc:Ignorable="d"
         Title="MainWindow" Height="607" Width="1032">
+
+    <Window.Resources>
+        <Storyboard x:Key="sbShowRightMenu" >
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,-150,0" To="0,0,0,0" DecelerationRatio=".9" Duration="0:0:1" />
+        </Storyboard>
+        <Storyboard x:Key="sbHideRightMenu">
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,0,0" To="0,0,-150,0" AccelerationRatio=".9" Duration="0:0:1" />
+        </Storyboard>
+    </Window.Resources>
+    
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top" Height="25">
                 <MenuItem Header="_File" Height="25">
-                    <MenuItem Header="_New"/>
+                    <MenuItem Header="_Open" Click="fileOpen_Click"/>
                     <Separator/>
-                    <MenuItem Header="Open"/>
+                    <MenuItem Header="_Exit"/>
                 </MenuItem>
             </Menu>
 
-
-            <Grid DockPanel.Dock="Right" Width="200">
-
+            <Grid>
+                <StackPanel Panel.ZIndex="2" Name="sideMenu" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,-150,0">
+                    <Grid>
+                        <Button Name="btnRightMenuHide" Width="48" Height="48" Click="btnRightMenuHide_Click" Content="Hide" Visibility="Hidden"/>
+                        <Button Name="btnRightMenuShow" Width="48" Height="48" Click="btnRightMenuShow_Click" Content="Show"/>
+                    </Grid>
+                    <Border BorderBrush="#AF1719" BorderThickness="1" Width="150" Background="#4C808080"/>
+                </StackPanel>
             </Grid>
-            
-            <Grid DockPanel.Dock="Left">
-
-            </Grid>
-
         </DockPanel>
         
     </Grid>
