@@ -35,24 +35,44 @@ namespace Imgae_Viewer
         public MainWindow()
         {
             InitializeComponent();
+            
+
         }
 
         private void fileOpen_Click(object sender, RoutedEventArgs e)
         {
             _ImagePath = OpenFileDialog();
-            //ViewBox.Source = new BitmapImage(new Uri(_ImagePath));
+            ViewBox.Source = new BitmapImage(new Uri(_ImagePath));
         }
 
-        private void btnRightMenuHide_Click(object sender, RoutedEventArgs e)
+
+        // ---- 사이드 애니메이션 구현부 ---
+        // 목록 메뉴
+        private void btnFileListMenuShow_Click(object sender, RoutedEventArgs e)
         {
-            ShowHideMenu("sbHideRightMenu", btnRightMenuHide, btnRightMenuShow, sideMenu);
+            ShowHideMenu("sbShowFileListMenu", btnFileListMenuHide, btnFileListMenuShow, fileListMenu);
+            btnSaveKeyMenuShow.Visibility = System.Windows.Visibility.Hidden;
         }
 
-        private void btnRightMenuShow_Click(object sender, RoutedEventArgs e)
+        private void btnFileListMenuHide_Click(object sender, RoutedEventArgs e)
         {
-            ShowHideMenu("sbShowRightMenu", btnRightMenuHide, btnRightMenuShow, sideMenu);
+            ShowHideMenu("sbHideFileListMenu", btnFileListMenuHide, btnFileListMenuShow, fileListMenu);
+            btnSaveKeyMenuShow.Visibility = System.Windows.Visibility.Visible;
+        }
+        // 단축키 메뉴
+        private void btnSaveKeyMenuShow_Click(object sender, RoutedEventArgs e)
+        {
+            ShowHideMenu("sbShowSaveKeyMenu", btnSaveKeyMenuHide, btnSaveKeyMenuShow, saveKeyMenu);
+            btnFileListMenuShow.Visibility = System.Windows.Visibility.Hidden;
         }
 
+        private void btnSaveKeyMenuHide_Click(object sender, RoutedEventArgs e)
+        {
+            ShowHideMenu("sbHideSaveKeyMenu", btnSaveKeyMenuHide, btnSaveKeyMenuShow, saveKeyMenu);
+            btnFileListMenuShow.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        // 애니메이션 작업
         private void ShowHideMenu(string Storyboard, Button btnHide, Button btnShow, StackPanel pnl)
         {
             Storyboard sb = Resources[Storyboard] as Storyboard;
