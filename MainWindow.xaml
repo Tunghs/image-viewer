@@ -9,10 +9,10 @@
 
     <Window.Resources>
         <Storyboard x:Key="sbShowRightMenu" >
-            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,-150,0" To="0,0,0,0" DecelerationRatio=".9" Duration="0:0:1" />
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,-150,0" To="0,0,0,0" DecelerationRatio=".9" Duration="0:0:0" />
         </Storyboard>
         <Storyboard x:Key="sbHideRightMenu">
-            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,0,0" To="0,0,-150,0" AccelerationRatio=".9" Duration="0:0:1" />
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,0,0" To="0,0,-150,0" AccelerationRatio=".9" Duration="0:0:0" />
         </Storyboard>
     </Window.Resources>
     
@@ -29,10 +29,10 @@
             <Grid>
                 <StackPanel Panel.ZIndex="2" Name="sideMenu" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,-150,0">
                     <Grid>
-                        <Button Name="btnRightMenuHide" Width="48" Height="48" Click="btnRightMenuHide_Click" Content="Hide" Visibility="Hidden"/>
-                        <Button Name="btnRightMenuShow" Width="48" Height="48" Click="btnRightMenuShow_Click" Content="Show"/>
+                        <Button Name="btnRightMenuHide" Width="24" Height="48" Click="btnRightMenuHide_Click" Content="Hide" Visibility="Hidden" VerticalAlignment="Top"/>
+                        <Button Name="btnRightMenuShow" Width="24" Height="48" Click="btnRightMenuShow_Click" Content="Show" VerticalAlignment="Top"/>
                     </Grid>
-                    <Border BorderBrush="#AF1719" BorderThickness="1" Width="150" Background="#4C808080"/>
+                    <Border BorderBrush="Gray" BorderThickness="3" Width="150" Background="#4C808080"/>
                 </StackPanel>
             </Grid>
         </DockPanel>
