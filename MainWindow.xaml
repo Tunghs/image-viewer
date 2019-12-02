@@ -23,7 +23,7 @@
         </Storyboard>
 
     </Window.Resources>
-    
+
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top" Height="25">
@@ -36,8 +36,8 @@
 
 
             <Grid DockPanel.Dock="Bottom">
-                <Image x:Name="ViewBox"/>
-                
+                <Image x:Name="ViewBox" DragDrop.Drop="file_DragDrop" DragDrop.DragEnter="file_DragEnter" AllowDrop="True"/>
+
                 <StackPanel Panel.ZIndex="2" Name="fileListMenu" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,-200,0">
                     <Grid>
                         <Button Name="btnFileListMenuHide" Width="24" Height="48" Click="btnFileListMenuHide_Click" Content="목&#10;록" Visibility="Hidden" VerticalAlignment="Top"/>
@@ -45,11 +45,15 @@
                     </Grid>
                     <Border BorderBrush="Gray" BorderThickness="3" Width="200" Background="#4C808080">
                         <Grid>
-                            <ListView Name="imageListView">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="23*"/>
+                                <RowDefinition Height="522*"/>
+                            </Grid.RowDefinitions>
+                            <ListView Name="imageListView" Grid.RowSpan="2">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="no" Width="50" />
-                                        <GridViewColumn Header="name" Width="120"/>
+                                        <GridViewColumn Header="no" Width="50"  DisplayMemberBinding="{Binding dataNo}"/>
+                                        <GridViewColumn Header="name" Width="140" DisplayMemberBinding="{Binding dataName}"/>
                                     </GridView>
                                 </ListView.View>
                             </ListView>
@@ -64,12 +68,12 @@
                     </Grid>
                     <Border BorderBrush="Gray" BorderThickness="3" Width="200" Background="#4C808080">
                         <Grid>
-                            
+
                         </Grid>
                     </Border>
                 </StackPanel>
             </Grid>
         </DockPanel>
-        
+
     </Grid>
 </Window>
