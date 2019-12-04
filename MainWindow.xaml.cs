@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 using System.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Drawing;
 
 namespace Imgae_Viewer
 {
@@ -88,7 +89,8 @@ namespace Imgae_Viewer
             return filePathList;
         }
 
-        private string contralImage(string path, List<string> list, int no)
+        
+        private string controlImage(string path, List<string> list, int no)
         {
             int num = list.IndexOf(path) + no;
             
@@ -121,17 +123,17 @@ namespace Imgae_Viewer
             if (e.Key == Key.Left)
             {
                 // 이전 사진으로 이동.
-                string prevImage = contralImage(_ImagePath, _ImagePathList, -1);
+                string prevImage = controlImage(_ImagePath, _ImagePathList, -1);
                 _ImagePath = prevImage;
-                ViewBox.Source = new BitmapImage(new Uri(_ImagePath));
+                showView(prevImage);
 
             }
             if (e.Key == Key.Right)
             {
                 //다음 사진으로 이동.
-                string nextImage = contralImage(_ImagePath, _ImagePathList, 1);
+                string nextImage = controlImage(_ImagePath, _ImagePathList, 1);
                 _ImagePath = nextImage;
-                ViewBox.Source = new BitmapImage(new Uri(_ImagePath));
+                showView(nextImage);
             }
 
             //--핫키--
@@ -140,35 +142,69 @@ namespace Imgae_Viewer
                 string fileName = System.IO.Path.GetFileName(_ImagePath);
                 string afterfolderPath = hotKeyPath_1.Text + @"\" + fileName;
 
-                // 다음 사진으로 이동
-                string nextImage = contralImage(_ImagePath, _ImagePathList, 1);
-                ViewBox.Source = new BitmapImage(new Uri(nextImage));
+                afterMoveWork(_ImagePath, afterfolderPath, _ImagePathList);
+            }
 
-                moveFile(_ImagePath, afterfolderPath);
+            if (e.Key == Key.W)
+            {
+                string fileName = System.IO.Path.GetFileName(_ImagePath);
+                string afterfolderPath = hotKeyPath_2.Text + @"\" + fileName;
 
-                _ImagePath = nextImage;
+                afterMoveWork(_ImagePath, afterfolderPath, _ImagePathList);
+            }
 
-                
+            if (e.Key == Key.E)
+            {
+                string fileName = System.IO.Path.GetFileName(_ImagePath);
+                string afterfolderPath = hotKeyPath_3.Text + @"\" + fileName;
+
+                afterMoveWork(_ImagePath, afterfolderPath, _ImagePathList);
             }
         }
 
+        // 파일 이동 후 처리
+        private void afterMoveWork(string source, string target, List<string> list)
+        {
+            // 다음 사진으로 이동
+            string nextImage = controlImage(source, list, 1);
+            showView(nextImage);
+
+            int num = _ImagePathList.IndexOf(source);
+            _ImagePathList.Remove(_ImagePathList[num]);
+
+            moveFile(source, target);
+            _ImagePath = nextImage;
+        }
+
+        // 파일 이동
         private void moveFile(string aPath, string bPath)
         {
-            System.IO.File.Move(aPath, bPath);
+            if (File.Exists(aPath))
+            {
+                FileInfo oldFile = new FileInfo(aPath);
+                oldFile.MoveTo(bPath);
+            }
         }
 
         // 메뉴 - 파일 불러오기
         private void fileOpen_Click(object sender, RoutedEventArgs e)
         {
             _ImagePath = OpenFileDialog();
-            ViewBox.Source = new BitmapImage(new Uri(_ImagePath));
+            showView(_ImagePath);
 
-            th(_ImagePath);
+            Chores(_ImagePath);
         }
 
-        private void th(string path)
+        private void showView(string path)
         {
-            ViewBox.Source = new BitmapImage(new Uri(path));
+            Bitmap bitmap = FileController.GetBitmapWithImagePath(path);
+            ViewBox.Source = FileController.GetBitmapSource(bitmap);   
+        }
+
+        //잡일 처리 -- 나중에 수정--
+        private void Chores(string path)
+        {
+            showView(path);
             currentLocationTxt.Text = System.IO.Path.GetDirectoryName(path);
 
             //listViewClear();
@@ -190,17 +226,17 @@ namespace Imgae_Viewer
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             _ImagePath = files[0];
-            th(_ImagePath);
+            Chores(_ImagePath);
         }
         // 마우스 포인터가 drag 영역에 들어 왔을 때 처리
         private void DropArea_DragOver(object sender, DragEventArgs e)
         {
-            DropArea.Background = new SolidColorBrush(Color.FromArgb(255, 189, 189, 189));
+            DropArea.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 189, 189, 189));
         }
         // 마우스 포인터가 drag 영역에 나갔을 때 처리
         private void DropArea_DragLeave(object sender, DragEventArgs e)
         {
-            DropArea.Background = new SolidColorBrush(Color.FromArgb(255, 234, 234, 234));
+            DropArea.Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 234, 234, 234));
         }
 
         // ---- 사이드 애니메이션 구현부 ---
