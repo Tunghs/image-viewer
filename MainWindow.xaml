@@ -54,6 +54,14 @@
                     <Separator/>
                     <MenuItem Header="_Exit"/>
                 </MenuItem>
+                <MenuItem Header="_Tools"
+                          Height="25">
+                    <MenuItem Header="_Invert"
+                              IsCheckable="True"
+                              IsChecked="False"
+                              Click="runInvertView_Click">
+                    </MenuItem>
+                </MenuItem>
             </Menu>
 
             <Grid DockPanel.Dock="Bottom" >

@@ -1,30 +1,21 @@
-﻿using System;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Media.Animation;
-using System.IO;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using System.Drawing;
+using OpenCvSharp;
 
 namespace Imgae_Viewer
 {
-
     class MyData
     {
         public int dataNo { get; set; }
         public string dataName { get; set; }
-
+        
         private static List<MyData> instance;
 
         public static List<MyData> GetInstance()
@@ -38,10 +29,11 @@ namespace Imgae_Viewer
     /// <summary>
     /// MainWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         private static string _ImagePath = null;
         private static List<string> _ImagePathList = null;
+        private static int _InvertCheck = 1;
 
         // ---- 다이얼로그 구현부 ----
         private string OpenFileDialog()
@@ -49,7 +41,7 @@ namespace Imgae_Viewer
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.InitialDirectory = "c:\\";
 
-            if(dlg.ShowDialog() == true)
+            if (dlg.ShowDialog() == true)
             {
                 return dlg.FileName;
             }
@@ -89,18 +81,18 @@ namespace Imgae_Viewer
             return filePathList;
         }
 
-        
+
         private string controlImage(string path, List<string> list, int no)
         {
             int num = list.IndexOf(path) + no;
-            
+
 
             if (num == -1)
             {
                 MessageBox.Show("첫번째 이미지입니다.");
                 return path;
             }
-            else if(num == list.Count)
+            else if (num == list.Count)
             {
                 MessageBox.Show("마지막 이미지입니다.");
                 return path;
@@ -120,45 +112,52 @@ namespace Imgae_Viewer
         // ---- 방향키로 이미지 이동 ----
         private void onKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Left)
+            try
             {
-                // 이전 사진으로 이동.
-                string prevImage = controlImage(_ImagePath, _ImagePathList, -1);
-                _ImagePath = prevImage;
-                showView(prevImage);
+                if (e.Key == Key.Left)
+                {
+                    // 이전 사진으로 이동.
+                    string prevImage = controlImage(_ImagePath, _ImagePathList, -1);
+                    _ImagePath = prevImage;
+                    showView(prevImage);
 
+                }
+                if (e.Key == Key.Right)
+                {
+                    //다음 사진으로 이동.
+                    string nextImage = controlImage(_ImagePath, _ImagePathList, 1);
+                    _ImagePath = nextImage;
+                    showView(nextImage);
+                }
+
+                //--핫키--
+                if (e.Key == Key.Q)
+                {
+                    string fileName = System.IO.Path.GetFileName(_ImagePath);
+                    string afterfolderPath = hotKeyPath_1.Text + @"\" + fileName;
+
+                    afterMoveWork(_ImagePath, afterfolderPath, _ImagePathList);
+                }
+
+                if (e.Key == Key.W)
+                {
+                    string fileName = System.IO.Path.GetFileName(_ImagePath);
+                    string afterfolderPath = hotKeyPath_2.Text + @"\" + fileName;
+
+                    afterMoveWork(_ImagePath, afterfolderPath, _ImagePathList);
+                }
+
+                if (e.Key == Key.E)
+                {
+                    string fileName = System.IO.Path.GetFileName(_ImagePath);
+                    string afterfolderPath = hotKeyPath_3.Text + @"\" + fileName;
+
+                    afterMoveWork(_ImagePath, afterfolderPath, _ImagePathList);
+                }
             }
-            if (e.Key == Key.Right)
+            catch
             {
-                //다음 사진으로 이동.
-                string nextImage = controlImage(_ImagePath, _ImagePathList, 1);
-                _ImagePath = nextImage;
-                showView(nextImage);
-            }
-
-            //--핫키--
-            if (e.Key == Key.Q)
-            {
-                string fileName = System.IO.Path.GetFileName(_ImagePath);
-                string afterfolderPath = hotKeyPath_1.Text + @"\" + fileName;
-
-                afterMoveWork(_ImagePath, afterfolderPath, _ImagePathList);
-            }
-
-            if (e.Key == Key.W)
-            {
-                string fileName = System.IO.Path.GetFileName(_ImagePath);
-                string afterfolderPath = hotKeyPath_2.Text + @"\" + fileName;
-
-                afterMoveWork(_ImagePath, afterfolderPath, _ImagePathList);
-            }
-
-            if (e.Key == Key.E)
-            {
-                string fileName = System.IO.Path.GetFileName(_ImagePath);
-                string afterfolderPath = hotKeyPath_3.Text + @"\" + fileName;
-
-                afterMoveWork(_ImagePath, afterfolderPath, _ImagePathList);
+                MessageBox.Show("error");
             }
         }
 
@@ -198,7 +197,15 @@ namespace Imgae_Viewer
         private void showView(string path)
         {
             Bitmap bitmap = FileController.GetBitmapWithImagePath(path);
-            ViewBox.Source = FileController.GetBitmapSource(bitmap);   
+
+            if (_InvertCheck == 1)
+            {
+                ViewBox.Source = FileController.GetBitmapSource(bitmap);
+            }
+            else if(_InvertCheck == -1)
+            {
+                ViewBox.Source = FileController.GetBitmapSource(invertImage(bitmap));
+            }
         }
 
         //잡일 처리 -- 나중에 수정--
@@ -213,6 +220,24 @@ namespace Imgae_Viewer
 
             textDropBlock.Visibility = System.Windows.Visibility.Hidden;
             DropArea.Visibility = System.Windows.Visibility.Hidden;
+        }
+
+        // ---- 이미지 역상 활성화 ----
+        private void runInvertView_Click(object sender, RoutedEventArgs e)
+        {
+            _InvertCheck = _InvertCheck * -1;
+        }   
+
+        // ---- 이미지 역상 -----
+        private Bitmap invertImage(Bitmap img)
+        {
+            Mat matImg = OpenCvSharp.Extensions.BitmapConverter.ToMat(img);
+            Mat not = new Mat();
+
+            Cv2.BitwiseNot(matImg, not);
+
+            Bitmap bitmapNot = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(not);
+            return bitmapNot;
         }
 
         // ---- 이미지 드래그 구현부 ----
@@ -295,6 +320,7 @@ namespace Imgae_Viewer
             }
             imageListView.ItemsSource = MyData.GetInstance();
         }
+
         private void listViewClear()
         {
             foreach (MyData item in imageListView.SelectedItems)
@@ -354,5 +380,9 @@ namespace Imgae_Viewer
             hotKeyPath_10.Text = OpenFolderDialog();
         }
 
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
