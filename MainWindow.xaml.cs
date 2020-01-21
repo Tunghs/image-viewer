@@ -81,7 +81,6 @@ namespace Imgae_Viewer
             return filePathList;
         }
 
-
         private string controlImage(string path, List<string> list, int no)
         {
             int num = list.IndexOf(path) + no;
@@ -196,15 +195,14 @@ namespace Imgae_Viewer
 
         private void showView(string path)
         {
-            Bitmap bitmap = FileController.GetBitmapWithImagePath(path);
-
             if (_InvertCheck == 1)
             {
+                Bitmap bitmap = FileController.GetBitmapWithImagePath(path);
                 ViewBox.Source = FileController.GetBitmapSource(bitmap);
             }
             else if(_InvertCheck == -1)
             {
-                ViewBox.Source = FileController.GetBitmapSource(invertImage(bitmap));
+                ViewBox.Source = FileController.GetBitmapSource(InvertImage(path));
             }
         }
 
@@ -229,15 +227,15 @@ namespace Imgae_Viewer
         }   
 
         // ---- 이미지 역상 -----
-        private Bitmap invertImage(Bitmap img)
+        private Bitmap InvertImage(string path)
         {
-            Mat matImg = OpenCvSharp.Extensions.BitmapConverter.ToMat(img);
-            Mat not = new Mat();
+            Mat src = new Mat(path, ImreadModes.Unchanged);
+            Mat dst = new Mat();
 
-            Cv2.BitwiseNot(matImg, not);
+            Cv2.BitwiseNot(src, dst);
+            Bitmap bitDst = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(dst);
 
-            Bitmap bitmapNot = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(not);
-            return bitmapNot;
+            return bitDst;
         }
 
         // ---- 이미지 드래그 구현부 ----
