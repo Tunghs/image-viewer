@@ -50,6 +50,7 @@ namespace Imgae_Viewer
                 return null;
             }
         }
+
         // 폴더 불러오기
         private string OpenFolderDialog()
         {
@@ -193,8 +194,19 @@ namespace Imgae_Viewer
             Chores(_ImagePath);
         }
 
+        // 이미지 뷰
         private void showView(string path)
         {
+            int num = 0;
+            int allnum = 0;
+
+            if (_ImagePathList != null)
+            {
+                num = _ImagePathList.IndexOf(path) + 1;
+                allnum = _ImagePathList.Count;
+            }   
+            Title = Path.GetFileName(path) + " (" + num.ToString() + "/" + allnum.ToString() + ")";
+
             if (_InvertCheck == 1)
             {
                 Bitmap bitmap = FileController.GetBitmapWithImagePath(path);
@@ -275,6 +287,7 @@ namespace Imgae_Viewer
             ShowHideMenu("sbHideFileListMenu", btnFileListMenuHide, btnFileListMenuShow, fileListMenu);
             btnSaveKeyMenuShow.Visibility = System.Windows.Visibility.Visible;
         }
+
         // 단축키 메뉴
         private void btnSaveKeyMenuShow_Click(object sender, RoutedEventArgs e)
         {
@@ -287,6 +300,7 @@ namespace Imgae_Viewer
             ShowHideMenu("sbHideSaveKeyMenu", btnSaveKeyMenuHide, btnSaveKeyMenuShow, saveKeyMenu);
             btnFileListMenuShow.Visibility = System.Windows.Visibility.Visible;
         }
+
         // 애니메이션 작업
         private void ShowHideMenu(string Storyboard, Button btnHide, Button btnShow, StackPanel pnl)
         {
