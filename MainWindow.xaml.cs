@@ -13,6 +13,7 @@ namespace Imgae_Viewer
 {
     class MyData
     {
+
         public int dataNo { get; set; }
         public string dataName { get; set; }
         
