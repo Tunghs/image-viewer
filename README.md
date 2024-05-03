@@ -1,2 +1,3 @@
-# ImageViewer
-Make a imgae viewer in c# WPF
+# Image Viewer
+
+WPF Image Viewer
