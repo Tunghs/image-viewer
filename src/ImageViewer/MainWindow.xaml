@@ -87,6 +87,7 @@
 
                                 <TextBlock VerticalAlignment="Center" Text="Dir Path  " />
                                 <TextBox
+                                    x:Name="SaveDirPathTbx"
                                     Grid.Column="2"
                                     Padding="3"
                                     VerticalAlignment="Center" />
@@ -110,14 +111,18 @@
                                     VerticalAlignment="Center"
                                     Text="Key  " />
                                 <TextBox
+                                    x:Name="KeyTbx"
                                     Grid.Column="1"
                                     Padding="3"
-                                    VerticalAlignment="Center" />
+                                    VerticalAlignment="Center"
+                                    IsReadOnly="True"
+                                    KeyDown="KeyTbx_KeyDown" />
                                 <ui:Button
                                     x:Name="SettingAddingBtn"
                                     Grid.Column="3"
                                     Width="140"
                                     Padding="3"
+                                    Click="SettingAddingBtn_Click"
                                     Content="Add Setting" />
                             </Grid>
                         </Grid>
@@ -132,32 +137,45 @@
                             </ItemsControl.Template>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <ui:Card>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="auto" />
-                                                <RowDefinition Height="2" />
-                                                <RowDefinition Height="auto" />
-                                            </Grid.RowDefinitions>
+                                    <Grid Margin="5">
+                                        <Border Background="#272727" CornerRadius="5">
+                                            <Grid Margin="5">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto" />
+                                                    <RowDefinition Height="2" />
+                                                    <RowDefinition Height="auto" />
+                                                </Grid.RowDefinitions>
 
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Foreground="Gray" Text="Key: " />
-                                                <TextBlock Text="{Binding Key}" />
-                                            </StackPanel>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="auto" />
+                                                    </Grid.ColumnDefinitions>
 
-                                            <ui:Button
-                                                x:Name="SettingDeleteBtn"
-                                                HorizontalAlignment="Right"
-                                                Background="Transparent"
-                                                BorderThickness="0"
-                                                Icon="{ui:SymbolIcon Dismiss32}" />
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Foreground="Gray" Text="Key: " />
+                                                        <TextBlock Text="sdfadfqwe" />
+                                                    </StackPanel>
 
-                                            <StackPanel Grid.Row="2" Orientation="Horizontal">
-                                                <TextBlock Foreground="Gray" Text="Dir Path: " />
-                                                <TextBlock Text="{Binding DirPath}" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </ui:Card>
+                                                    <ui:Button
+                                                        x:Name="SettingDeleteBtn"
+                                                        Grid.Row="2"
+                                                        Grid.Column="2"
+                                                        Width="30"
+                                                        Panel.ZIndex="2"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Click="SettingssDeleteBtn_Click"
+                                                        Icon="{ui:SymbolIcon Dismiss32}" />
+                                                </Grid>
+
+                                                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                                                    <TextBlock Foreground="Gray" Text="Dir Path: " />
+                                                    <TextBlock Text="werqweqwe" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
