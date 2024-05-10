@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImageViewer
 {
-    internal class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
     }
 }
