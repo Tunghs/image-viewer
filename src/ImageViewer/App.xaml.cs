@@ -1,6 +1,4 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 
 namespace ImageViewer
 {
@@ -9,6 +7,10 @@ namespace ImageViewer
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            new Bootstrapper();
+        }
     }
 
 }
