@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using ImageViewer.Viewers;
+using ImageViewer.Bases;
+using ImageViewer.Services;
 
 namespace ImageViewer
 {
@@ -20,8 +22,8 @@ namespace ImageViewer
         {
             var services = new ServiceCollection();
 
-            ////// Services
-            //services.AddSingleton<IDialogService, DialogService>();
+            // Services
+            services.AddSingleton<IDialogService, DialogService>();
 
             // Viewer ViewModels
             services.AddTransient<MainWindowViewModel>();
