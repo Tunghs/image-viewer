@@ -25,43 +25,43 @@ namespace ImageViewer
         {
             InitializeComponent();
 
-            SettingItems.ItemsSource = KeyDictionary;
+            //SettingItems.ItemsSource = KeyDictionary;
         }
 
-        private void SettingAddingBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(KeyTbx.Text) || string.IsNullOrEmpty(SaveDirPathTbx.Text))
-                return;
+        //private void SettingAddingBtn_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (string.IsNullOrEmpty(KeyTbx.Text) || string.IsNullOrEmpty(SaveDirPathTbx.Text))
+        //        return;
 
-            if (KeyDictionary.ContainsKey(_tempKey))
-            {
-                System.Windows.MessageBox.Show("중복된 단축키 존재");
-                return;
-            }
+        //    if (KeyDictionary.ContainsKey(_tempKey))
+        //    {
+        //        System.Windows.MessageBox.Show("중복된 단축키 존재");
+        //        return;
+        //    }
 
-            KeyDictionary.Add(_tempKey, SaveDirPathTbx.Text);
-            SaveDirPathTbx.Text = string.Empty;
-            KeyTbx.Text = string.Empty;
+        //    KeyDictionary.Add(_tempKey, SaveDirPathTbx.Text);
+        //    SaveDirPathTbx.Text = string.Empty;
+        //    KeyTbx.Text = string.Empty;
 
-            // SettingItems.Items.Refresh();
-            SettingItems.ItemsSource = KeyDictionary;
-            SettingItems.Items.Refresh();
-        }
+        //    // SettingItems.Items.Refresh();
+        //    SettingItems.ItemsSource = KeyDictionary;
+        //    SettingItems.Items.Refresh();
+        //}
 
-        private void KeyTbx_KeyDown(object sender, KeyEventArgs e)
-        {
-            KeyTbx.Text = string.Empty;
-            e.Handled = true;
+        //private void KeyTbx_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    KeyTbx.Text = string.Empty;
+        //    e.Handled = true;
 
-            _tempKey = e.Key;
-            KeyTbx.Text = _tempKey.ToString();
-        }
+        //    _tempKey = e.Key;
+        //    KeyTbx.Text = _tempKey.ToString();
+        //}
 
-        private void SettingDeleteBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Wpf.Ui.Controls.Button? btn = sender as Wpf.Ui.Controls.Button;
-            SettingItems.Items.Refresh();
-        }
+        //private void SettingDeleteBtn_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Wpf.Ui.Controls.Button? btn = sender as Wpf.Ui.Controls.Button;
+        //    SettingItems.Items.Refresh();
+        //}
 
         private void SettingssDeleteBtn_Click(object sender, RoutedEventArgs e)
         {

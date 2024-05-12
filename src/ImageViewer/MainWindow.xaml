@@ -9,6 +9,7 @@
     Title="MainWindow"
     Width="800"
     Height="450"
+    DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
     ExtendsContentIntoTitleBar="True"
     WindowBackdropType="Mica"
     WindowCornerPreference="Round"
@@ -21,17 +22,51 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ui:TitleBar ForceShutdown="False" />
-        <StackPanel Margin="15,0,0,0" Orientation="Horizontal">
-            <TextBlock VerticalAlignment="Center" Text="Filename" />
-            <TextBlock VerticalAlignment="Center" Text=" ( " />
-            <TextBlock VerticalAlignment="Center" Text="2" />
-            <TextBlock VerticalAlignment="Center" Text=" / " />
-            <TextBlock VerticalAlignment="Center" Text="2432" />
-            <TextBlock VerticalAlignment="Center" Text=" )" />
-        </StackPanel>
+        <Grid Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1">
+            <Grid Height="35">
+                <ui:TitleBar ForceShutdown="False" />
+                <StackPanel
+                    Margin="15,8,0,0"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Filename" />
+                    <TextBlock VerticalAlignment="Center" Text=" ( " />
+                    <TextBlock VerticalAlignment="Center" Text="2" />
+                    <TextBlock VerticalAlignment="Center" Text=" / " />
+                    <TextBlock VerticalAlignment="Center" Text="2432" />
+                    <TextBlock VerticalAlignment="Center" Text=" )" />
+                </StackPanel>
+            </Grid>
+
+            <StackPanel
+                Grid.Row="1"
+                Margin="5,0,5,5"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <ui:DropDownButton
+                    Width="100"
+                    Padding="10,2,10,2"
+                    Content="Setting">
+                    <ui:DropDownButton.Flyout>
+                        <ContextMenu>
+                            <MenuItem
+                                Command="{Binding ButtonClickCommand}"
+                                CommandParameter="OpenSetting"
+                                Header="Hot Key" />
+                        </ContextMenu>
+                    </ui:DropDownButton.Flyout>
+                </ui:DropDownButton>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Background="#272727" />
+
+        <!--<Grid Grid.Row="1">
             <Grid Margin="5">
                 <Image x:Name="ImageViewer" />
             </Grid>
@@ -182,6 +217,6 @@
                     </Grid>
                 </Grid>
             </Grid>
-        </Grid>
+        </Grid>-->
     </Grid>
 </ui:FluentWindow>
