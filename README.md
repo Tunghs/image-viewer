@@ -1,3 +1,4 @@
 # Image Viewer
 
-리팩토링 시작
+- Image_Viewer 작업 적용 필요
+- Hotkey 적용
