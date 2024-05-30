@@ -4,9 +4,11 @@ using ImageViewer.Bases;
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ImageViewer
 {
@@ -32,6 +34,29 @@ namespace ImageViewer
                     break;
                 default:
                     break;
+            }
+        }
+
+        [RelayCommand]
+        private void OnFileDrop(DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                return;
+            }
+
+            var dropItems = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var dropItem = dropItems[0];
+
+            // 파일
+            if (File.Exists(dropItem))
+            {
+
+            }
+            // 폴더
+            else if (Directory.Exists(dropItem))
+            {
+
             }
         }
         #endregion
