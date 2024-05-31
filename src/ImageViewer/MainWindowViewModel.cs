@@ -36,29 +36,6 @@ namespace ImageViewer
                     break;
             }
         }
-
-        [RelayCommand]
-        private void OnFileDrop(DragEventArgs e)
-        {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                return;
-            }
-
-            var dropItems = (string[])e.Data.GetData(DataFormats.FileDrop);
-            var dropItem = dropItems[0];
-
-            // 파일
-            if (File.Exists(dropItem))
-            {
-
-            }
-            // 폴더
-            else if (Directory.Exists(dropItem))
-            {
-
-            }
-        }
         #endregion
 
         #region Methods
