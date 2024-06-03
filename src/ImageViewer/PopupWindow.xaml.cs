@@ -1,4 +1,5 @@
 ﻿using ImageViewer.Bases;
+using ImageViewer.PopupWindows;
 
 using Wpf.Ui.Controls;
 
@@ -14,5 +15,9 @@ namespace ImageViewer
             this.DataContext = new PopupViewModel();
             InitializeComponent();
         }
+
+        public Action? CloseCallback { get; set; }
+
+
     }
 }
