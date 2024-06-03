@@ -3,9 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:ImageViewer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:viewers="clr-namespace:ImageViewer.Viewers"
     Title="MainWindow"
     Width="800"
     Height="450"
@@ -64,159 +64,8 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="1" Background="#272727" />
-
-        <!--<Grid Grid.Row="1">
-            <Grid Margin="5">
-                <Image x:Name="ImageViewer" />
-            </Grid>
-
-            <Grid x:Name="SettingGrid">
-                <Grid Background="White" Opacity=".3" />
-
-                <Grid
-                    x:Name="SettingView"
-                    Width="480"
-                    Height="420"
-                    Background="#2d2d2d">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Grid>
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="Setting" />
-                        <ui:Button
-                            x:Name="SettingClosingBtn"
-                            Height="35"
-                            HorizontalAlignment="Right"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Icon="{ui:SymbolIcon Dismiss32}" />
-                    </Grid>
-
-                    <Grid Grid.Row="1" Margin="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="10" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="5" />
-                                <RowDefinition Height="auto" />
-                            </Grid.RowDefinitions>
-
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="5" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock VerticalAlignment="Center" Text="Dir Path  " />
-                                <TextBox
-                                    x:Name="SaveDirPathTbx"
-                                    Grid.Column="2"
-                                    Padding="3"
-                                    VerticalAlignment="Center" />
-                                <ui:Button
-                                    x:Name="OpenDirDialogBtn"
-                                    Grid.Column="3"
-                                    Width="30"
-                                    Padding="3"
-                                    Content="..." />
-                            </Grid>
-
-                            <Grid Grid.Row="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="60" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Margin="33,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="Key  " />
-                                <TextBox
-                                    x:Name="KeyTbx"
-                                    Grid.Column="1"
-                                    Padding="3"
-                                    VerticalAlignment="Center"
-                                    IsReadOnly="True"
-                                    KeyDown="KeyTbx_KeyDown" />
-                                <ui:Button
-                                    x:Name="SettingAddingBtn"
-                                    Grid.Column="3"
-                                    Width="140"
-                                    Padding="3"
-                                    Click="SettingAddingBtn_Click"
-                                    Content="Add Setting" />
-                            </Grid>
-                        </Grid>
-
-                        <ItemsControl x:Name="SettingItems" Grid.Row="2">
-                            <ItemsControl.Template>
-                                <ControlTemplate>
-                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                        <ItemsPresenter />
-                                    </ScrollViewer>
-                                </ControlTemplate>
-                            </ItemsControl.Template>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="5">
-                                        <Border Background="#272727" CornerRadius="5">
-                                            <Grid Margin="5">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="auto" />
-                                                    <RowDefinition Height="2" />
-                                                    <RowDefinition Height="auto" />
-                                                </Grid.RowDefinitions>
-
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="auto" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Foreground="Gray" Text="Key: " />
-                                                        <TextBlock Text="sdfadfqwe" />
-                                                    </StackPanel>
-
-                                                    <ui:Button
-                                                        x:Name="SettingDeleteBtn"
-                                                        Grid.Row="2"
-                                                        Grid.Column="2"
-                                                        Width="30"
-                                                        Panel.ZIndex="2"
-                                                        Background="Transparent"
-                                                        BorderThickness="0"
-                                                        Click="SettingssDeleteBtn_Click"
-                                                        Icon="{ui:SymbolIcon Dismiss32}" />
-                                                </Grid>
-
-                                                <StackPanel Grid.Row="2" Orientation="Horizontal">
-                                                    <TextBlock Foreground="Gray" Text="Dir Path: " />
-                                                    <TextBlock Text="werqweqwe" />
-                                                </StackPanel>
-                                            </Grid>
-                                        </Border>
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </Grid>
-                </Grid>
-            </Grid>
-        </Grid>-->
+        <Grid Grid.Row="1" Background="#272727">
+            <viewers:ImageViewerView />
+        </Grid>
     </Grid>
 </ui:FluentWindow>
