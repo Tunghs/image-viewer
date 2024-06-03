@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace ImageViewer.Bases
@@ -24,6 +25,18 @@ namespace ImageViewer.Bases
             {
                 Cleanup();
             }
+        }
+    }
+
+    public abstract partial class PopupDialogViewModelBase : ViewModelBase
+    {
+        [ObservableProperty]
+        private ObservableObject? popupVM;
+
+        [RelayCommand]
+        private void Closing()
+        {
+            PopupVM = null;
         }
     }
 }
