@@ -10,6 +10,8 @@ namespace ImageViewer
         public App()
         {
             new Bootstrapper();
+
+            Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
         }
     }
 }
