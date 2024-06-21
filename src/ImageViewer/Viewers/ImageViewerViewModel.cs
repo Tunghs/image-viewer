@@ -19,7 +19,7 @@ namespace ImageViewer.Viewers
     public partial class ImageViewerViewModel : ViewModelBase
     {
         #region Fields
-        private List<string> imageFiles = new List<string>();
+        private List<string> _imageFiles = new List<string>();
         private List<string> _supportedImageFormat = new List<string>()
         {
             ".jpg", ".jpeg", ".png", ".bmp"
@@ -28,11 +28,12 @@ namespace ImageViewer.Viewers
 
         #region UI Variable
         [ObservableProperty]
-        private string imagePath = @"C:\Users\selee\Pictures\1532.jpg";
+        private string _imagePath;
         #endregion
 
         public ImageViewerViewModel()
         {
+            int a = 0;
         }
 
         [RelayCommand]
@@ -50,10 +51,12 @@ namespace ImageViewer.Viewers
             if (IsDirectory(dropItem))
             {
                 AddFilesFromDirectoryPath(dropItem);
+                ShowImage(_imageFiles[0]);
             }
             else // 파일
             {
                 AddFilesFromFilePath(dropItem);
+                ShowImage(dropItem);
             }
         }
 
@@ -76,7 +79,7 @@ namespace ImageViewer.Viewers
         public void AddFilesFromDirectoryPath(string directoryPath)
         {
             string[] files = Directory.GetFiles(directoryPath, "*.*");
-            imageFiles = files.ToList();
+            _imageFiles = files.ToList();
         }
         #endregion
 
@@ -98,6 +101,11 @@ namespace ImageViewer.Viewers
             { 
                 return false;
             }
+        }
+
+        private void ShowImage(string filePath)
+        {
+            ImagePath = filePath;
         }
         #endregion
     }

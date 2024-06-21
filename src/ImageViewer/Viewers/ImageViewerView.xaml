@@ -6,15 +6,16 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:ImageViewer.Viewers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance Type={x:Type local:ImageViewerViewModel}}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     DataContext="{Binding ImageViewerViewModel, Source={StaticResource ViewModelLocator}}"
     mc:Ignorable="d">
-    <Grid AllowDrop="True">
-        <Image Source="{Binding Image}" />
+    <Grid AllowDrop="True" Background="Transparent">
+        <Image Source="{Binding ImagePath}" />
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Drop">
-                <i:InvokeCommandAction Command="{Binding OnFileDropCommand}" PassEventArgsToCommand="True" />
+                <i:InvokeCommandAction Command="{Binding FileDropCommand}" PassEventArgsToCommand="True" />
             </i:EventTrigger>
         </i:Interaction.Triggers>
     </Grid>
