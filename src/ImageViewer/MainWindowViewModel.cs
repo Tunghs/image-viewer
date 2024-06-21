@@ -5,6 +5,8 @@ using ImageViewer.Bases;
 using ImageViewer.PopupWindows;
 using ImageViewer.Services;
 
+using System.Windows.Input;
+
 namespace ImageViewer
 {
     public partial class MainWindowViewModel : ViewModelBase
@@ -34,6 +36,15 @@ namespace ImageViewer
                     break;
             }
         }
+
+        [RelayCommand]
+        private void OnKeyDown(KeyEventArgs e)
+        {
+            if (e.Key == Key.Left)
+            {
+
+            }
+        }
         #endregion
 
         #region Methods
@@ -42,6 +53,14 @@ namespace ImageViewer
             // Popup1View 팝업 띄우기
             dialogService.Show(new PopupViewModel(), "HI", 500, 650, typeof(PopupWindow));
             //dialogService.Dialog.ShowDialog();
+        }
+
+        private void MoveImage()
+        {
+            // 이전 사진으로 이동.
+            //string prevImage = controlImage(_currentImagePath, ImageList, -1);
+            //_currentImagePath = prevImage;
+            //showView(prevImage);
         }
         #endregion
     }
