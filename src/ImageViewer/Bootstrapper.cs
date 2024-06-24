@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+
 using ImageViewer.Viewers;
-using ImageViewer.Bases;
 using ImageViewer.Services;
 
 namespace ImageViewer
