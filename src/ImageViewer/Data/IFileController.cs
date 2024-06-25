@@ -63,8 +63,8 @@ namespace ImageViewer.Data
             if (currentImage != null)
             {
                 _index = _imageList.IndexOf(currentImage);
-                OnFileChanged(new FileChangedEventArgs(_totalCount, _index, _imageList[_index]));
             }
+            OnFileChanged(new FileChangedEventArgs(_totalCount, _index, _imageList[_index]));
         }
 
         public void Cancel()

@@ -1,24 +1,35 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 
 using ImageViewer.Bases;
+using ImageViewer.Data;
 using ImageViewer.PopupWindows;
 using ImageViewer.Services;
 
+using System.IO;
 using System.Windows.Input;
 
 namespace ImageViewer
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
+        #region Fields
+        private IFileController _controller;
         private readonly IDialogService dialogService;
+        #endregion
+
         public MainWindowViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;
+            _controller = Ioc.Default.GetService<IFileController>();
+            _controller.Changed += OnControlChanged;
         }
 
+        #region UI Properties
         [ObservableProperty]
         private string _title;
+        #endregion
 
         #region Command
         [RelayCommand]
@@ -55,12 +66,9 @@ namespace ImageViewer
             //dialogService.Dialog.ShowDialog();
         }
 
-        private void MoveImage()
+        private void OnControlChanged(object? sender, FileChangedEventArgs e)
         {
-            // 이전 사진으로 이동.
-            //string prevImage = controlImage(_currentImagePath, ImageList, -1);
-            //_currentImagePath = prevImage;
-            //showView(prevImage);
+            Title = $"{Path.GetFileName(e.FileName)} ( {e.Index} / {e.TotalCount} )";
         }
         #endregion
     }
