@@ -15,14 +15,14 @@ namespace ImageViewer
     public partial class MainWindowViewModel : ViewModelBase
     {
         #region Fields
-        private IFileController _controller;
+        private IFileControlService _controller;
         private readonly IDialogService dialogService;
         #endregion
 
         public MainWindowViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;
-            _controller = Ioc.Default.GetService<IFileController>();
+            _controller = Ioc.Default.GetService<IFileControlService>();
             _controller.Changed += OnControlChanged;
         }
 

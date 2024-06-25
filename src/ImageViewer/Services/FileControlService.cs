@@ -1,8 +1,10 @@
-﻿using System.IO;
+﻿using ImageViewer.Data;
 
-namespace ImageViewer.Data
+using System.IO;
+
+namespace ImageViewer.Services
 {
-    public interface IFileController
+    public interface IFileControlService
     {
         event EventHandler<FileChangedEventArgs> Changed;
         void LoadImages(string path);
@@ -25,7 +27,7 @@ namespace ImageViewer.Data
         }
     }
 
-    public class FileController : IFileController
+    public class FileControlService : IFileControlService
     {
         #region Fields
         private List<string> _supportedExtentions = new List<string>() { ".jpg", ".png", ".bmp", ".jpeg" };
@@ -40,11 +42,7 @@ namespace ImageViewer.Data
         public event EventHandler<FileChangedEventArgs> Changed;
         #endregion
 
-        public FileController()
-        {
-
-        }
-
+        #region Public Methods
         public void LoadImages(string path)
         {
             string currentImage = null;
@@ -55,7 +53,7 @@ namespace ImageViewer.Data
                 directoryPath = Path.GetDirectoryName(path);
             }
 
-            _imageList = Directory.EnumerateFiles(path, "*.*", SearchOption.TopDirectoryOnly)
+            _imageList = Directory.EnumerateFiles(directoryPath, "*.*", SearchOption.TopDirectoryOnly)
                 .Where(s => _supportedExtentions.Any(x => s.ToLower().EndsWith(x))).ToList();
 
             _totalCount = _imageList.Count;
@@ -128,6 +126,7 @@ namespace ImageViewer.Data
                 OnFileChanged(new FileChangedEventArgs(_totalCount--, _index, _imageList[_index]));
             }
         }
+        #endregion
 
         protected virtual void OnFileChanged(FileChangedEventArgs e)
         {

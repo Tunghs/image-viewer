@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 
 using ImageViewer.Bases;
 using ImageViewer.Data;
+using ImageViewer.Services;
 
 using System.Windows;
 
@@ -12,7 +13,7 @@ namespace ImageViewer.Viewers
     public partial class ImageViewerViewModel : ViewModelBase
     {
         #region Fields
-        private IFileController _controller;
+        private IFileControlService _controller;
         #endregion
 
         #region UI Variable
@@ -22,7 +23,7 @@ namespace ImageViewer.Viewers
 
         public ImageViewerViewModel()
         {
-            _controller = Ioc.Default.GetService<IFileController>();
+            _controller = Ioc.Default.GetService<IFileControlService>();
             _controller.Changed += OnControlChanged;
         }
 

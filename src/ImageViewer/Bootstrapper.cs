@@ -25,7 +25,7 @@ namespace ImageViewer
 
             // Services
             services.AddSingleton<IDialogService, DialogService>();
-            services.AddSingleton<IFileController, FileController>();
+            services.AddSingleton<IFileControlService, FileControlService>();
 
             // Viewer ViewModels
             services.AddTransient<MainWindowViewModel>();
