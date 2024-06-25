@@ -29,6 +29,11 @@
 
         public T Pop()
         {
+            if (top == 0)
+            {
+                return default;
+            }
+
             T item = _buffer[top];
             top = top - 1;
             return item;
