@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using ImageViewer.Viewers;
 using ImageViewer.Services;
+using ImageViewer.Data;
 
 namespace ImageViewer
 {
@@ -24,6 +25,7 @@ namespace ImageViewer
 
             // Services
             services.AddSingleton<IDialogService, DialogService>();
+            services.AddSingleton<IFileController, FileController>();
 
             // Viewer ViewModels
             services.AddTransient<MainWindowViewModel>();

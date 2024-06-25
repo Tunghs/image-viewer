@@ -4,7 +4,7 @@ namespace ImageViewer.Data
 {
     public interface IFileController
     {
-        event EventHandler Changed;
+        event EventHandler<FileChangedEventArgs> Changed;
         void LoadImages(string path);
         void Cancel();
         bool Next();
@@ -37,7 +37,7 @@ namespace ImageViewer.Data
         #endregion
 
         #region Event
-        public event EventHandler Changed;
+        public event EventHandler<FileChangedEventArgs> Changed;
         #endregion
 
         public FileController()
@@ -47,7 +47,7 @@ namespace ImageViewer.Data
 
         public void LoadImages(string path)
         {
-            string currentImage = string.Empty;
+            string currentImage = null;
             string directoryPath = path;
             if (!IsDirectory(path))
             {
@@ -129,7 +129,7 @@ namespace ImageViewer.Data
             }
         }
 
-        protected virtual void OnFileChanged(EventArgs e)
+        protected virtual void OnFileChanged(FileChangedEventArgs e)
         {
             Changed?.Invoke(this, e);
         }
