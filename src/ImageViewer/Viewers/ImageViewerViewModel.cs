@@ -7,6 +7,7 @@ using ImageViewer.Data;
 using ImageViewer.Services;
 
 using System.Windows;
+using System.Windows.Input;
 
 namespace ImageViewer.Viewers
 {

@@ -3,8 +3,8 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 
 using ImageViewer.Bases;
-using ImageViewer.PopupWindows;
 using ImageViewer.Services;
+using ImageViewer.Viewers;
 
 using System.IO;
 using System.Windows.Input;
@@ -21,6 +21,7 @@ namespace ImageViewer
         private readonly IFileControlService _controller;
         private readonly ISnackbarService _snackbarService;
         private readonly IDialogService _dialogService;
+        private SettingViewerViewModel _settingViewerVm;
 
         #endregion Fields
 
@@ -50,10 +51,6 @@ namespace ImageViewer
                     OpenSettingWindow();
                     break;
 
-                case "Crop":
-                    // Crop();
-                    break;
-
                 default:
                     break;
             }
@@ -77,13 +74,26 @@ namespace ImageViewer
             }
         }
 
+        [RelayCommand]
+        private void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                _controller.Previous();
+            }
+            else
+            {
+                _controller.Next();
+            }
+        }
+
         #endregion Command
 
         #region Methods
 
         private void OpenSettingWindow()
         {
-            _dialogService.Show(new PopupViewModel(), "HI", 500, 650, typeof(PopupWindow));
+            _dialogService.Show(_settingViewerVm, "Settings", 500, 650, typeof(PopupWindow));
         }
 
         private void OnControlChanged(object? sender, FileChangedEventArgs e)
