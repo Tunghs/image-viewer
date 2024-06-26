@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ImageViewer.Viewers;
 using ImageViewer.Services;
 using ImageViewer.Data;
+using Wpf.Ui;
 
 namespace ImageViewer
 {
@@ -26,6 +27,8 @@ namespace ImageViewer
             // Services
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IFileControlService, FileControlService>();
+            // Snackbar service 등록
+            services.AddSingleton<ISnackbarService, SnackbarService>();
 
             // Viewer ViewModels
             services.AddTransient<MainWindowViewModel>();
