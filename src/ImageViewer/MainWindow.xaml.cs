@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -9,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Wpf.Ui;
 using Wpf.Ui.Controls;
 
 namespace ImageViewer
@@ -21,6 +24,8 @@ namespace ImageViewer
         public MainWindow()
         {
             InitializeComponent();
+            var snackbarService = Ioc.Default.GetService<ISnackbarService>();
+            snackbarService.SetSnackbarPresenter(this.SnackbarPresenter);
         }
     }
 }

@@ -73,6 +73,7 @@
             AllowDrop="True"
             Background="#272727">
             <viewers:ImageViewerView />
+            <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
         </Grid>
     </Grid>
 </ui:FluentWindow>
