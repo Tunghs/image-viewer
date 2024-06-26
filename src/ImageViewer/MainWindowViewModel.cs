@@ -83,9 +83,7 @@ namespace ImageViewer
 
         private void OpenSettingWindow()
         {
-            // Popup1View 팝업 띄우기
             _dialogService.Show(new PopupViewModel(), "HI", 500, 650, typeof(PopupWindow));
-            //dialogService.Dialog.ShowDialog();
         }
 
         private void OnControlChanged(object? sender, FileChangedEventArgs e)
