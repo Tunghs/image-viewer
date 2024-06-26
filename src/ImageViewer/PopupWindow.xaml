@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:ImageViewer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="PopupWindow"
     Width="800"
     Height="450"
     ExtendsContentIntoTitleBar="True"
@@ -20,9 +19,11 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ui:TitleBar ForceShutdown="False" />
+        <ui:TitleBar ForceShutdown="False" 
+                     Title="{Binding Path=Title, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+              Background="#272727">
             <ContentControl Content="{Binding PopupVM}" />
         </Grid>
     </Grid>

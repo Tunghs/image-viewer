@@ -11,5 +11,8 @@ namespace ImageViewer.Components
 
         public ImageViewerViewModel? ImageViewerViewModel
             => Ioc.Default.GetService<ImageViewerViewModel>();
+
+        public SettingViewerViewModel? SettingViewerViewModel
+            => Ioc.Default.GetService<SettingViewerViewModel>();
     }
 }
