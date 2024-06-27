@@ -33,7 +33,6 @@ namespace ImageViewer
             // Viewer ViewModels
             services.AddTransient<MainWindowViewModel>();
             services.AddTransient<ImageViewerViewModel>();
-            services.AddTransient<SettingViewerViewModel>();
 
             return services.BuildServiceProvider();
         }
