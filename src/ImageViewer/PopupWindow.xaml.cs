@@ -13,6 +13,7 @@ namespace ImageViewer
         public PopupWindow()
         {
             this.DataContext = new PopupViewModel();
+            this.Owner = App.Current.MainWindow;
             InitializeComponent();
         }
 
