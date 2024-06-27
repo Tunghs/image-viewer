@@ -24,8 +24,15 @@ namespace ImageViewer
         public MainWindow()
         {
             InitializeComponent();
+            this.MouseLeftButtonDown += MainWindow_MouseDown;
+
             var snackbarService = Ioc.Default.GetService<ISnackbarService>();
             snackbarService.SetSnackbarPresenter(this.SnackbarPresenter);
+        }
+
+        private void MainWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
     }
 }
