@@ -5,11 +5,6 @@ using ImageViewer.Bases;
 
 using Microsoft.Win32;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ImageViewer.Viewers
@@ -19,8 +14,10 @@ namespace ImageViewer.Viewers
         #region UI Variable
         [ObservableProperty]
         private string _saveDirPath;
+
         [ObservableProperty]
         private string _key;
+
         [ObservableProperty]
         private Dictionary<string, string> _settings = new Dictionary<string, string>() { {"ddddd", "eeeee"}};
         #endregion
@@ -78,6 +75,8 @@ namespace ImageViewer.Viewers
             Settings.Add(SaveDirPath, Key);
             SaveDirPath = string.Empty;
             Key = string.Empty;
+
+            UpdateSetting();
         }
 
         private void OpenDirDialog()
@@ -92,6 +91,13 @@ namespace ImageViewer.Viewers
             {
                 SaveDirPath = folderDialog.FolderName;
             }
+        }
+
+        private void UpdateSetting()
+        {
+            var tempDic = new Dictionary<string, string>(Settings);
+            Settings = null;
+            Settings = tempDic;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 
 using ImageViewer.Bases;
@@ -26,8 +25,8 @@ namespace ImageViewer
         #endregion Fields
 
         public MainWindowViewModel(
-            IDialogService dialogService, 
-            ISnackbarService snackbarService, 
+            IDialogService dialogService,
+            ISnackbarService snackbarService,
             IFileControlService fileControlService)
         {
             _dialogService = dialogService;
