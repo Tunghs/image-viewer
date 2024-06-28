@@ -25,12 +25,16 @@ namespace ImageViewer
 
         #endregion Fields
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(
+            IDialogService dialogService, 
+            ISnackbarService snackbarService, 
+            IFileControlService fileControlService)
         {
-            _dialogService = Ioc.Default.GetService<IDialogService>();
-            _snackbarService = Ioc.Default.GetService<ISnackbarService>();
-            _controller = Ioc.Default.GetService<IFileControlService>();
+            _dialogService = dialogService;
+            _snackbarService = snackbarService;
+            _controller = fileControlService;
             _controller.Changed += OnControlChanged;
+            _settingViewerVm = new SettingViewerViewModel();
         }
 
         #region UI Properties
@@ -98,7 +102,7 @@ namespace ImageViewer
 
         private void OnControlChanged(object? sender, FileChangedEventArgs e)
         {
-            Title = $"{Path.GetFileName(e.FileName)} ( {e.Index + 1} / {e.TotalCount} )";
+            Title = $"[{e.Index + 1}/{e.TotalCount}] {Path.GetFileName(e.FileName)}";
 
             if (e.Index == 0)
             {

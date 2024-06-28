@@ -22,9 +22,9 @@ namespace ImageViewer.Viewers
         private string _imagePath;
         #endregion
 
-        public ImageViewerViewModel()
+        public ImageViewerViewModel(IFileControlService fileControlService)
         {
-            _controller = Ioc.Default.GetService<IFileControlService>();
+            _controller = fileControlService;
             _controller.Changed += OnControlChanged;
         }
 
