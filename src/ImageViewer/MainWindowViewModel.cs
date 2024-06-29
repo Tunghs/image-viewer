@@ -72,8 +72,14 @@ namespace ImageViewer
                     _controller.Next();
                     break;
 
-                default:
+                case Key.Back:
+                    _controller.Cancel();
                     break;
+            }
+
+            if (_settingViewerVm.Settings.ContainsKey(e.Key.ToString()))
+            {
+                _controller.Move(_settingViewerVm.Settings[e.Key.ToString()]);
             }
         }
 
