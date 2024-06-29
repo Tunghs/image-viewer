@@ -11,6 +11,10 @@ namespace ImageViewer.Viewers
 {
     public partial class SettingViewerViewModel : PopupDialogViewModelBase
     {
+        #region Fields
+        private OpenFolderDialog _openFolderDialog = new OpenFolderDialog() { Title = "Select Save Folder" };
+        #endregion
+
         #region UI Variable
         [ObservableProperty]
         private string _saveDirPath;
@@ -19,7 +23,7 @@ namespace ImageViewer.Viewers
         private string _key;
 
         [ObservableProperty]
-        private Dictionary<string, string> _settings = new Dictionary<string, string>() { {"ddddd", "eeeee"}};
+        private Dictionary<string, string> _settings = new Dictionary<string, string>();
         #endregion
 
         [RelayCommand]
@@ -42,6 +46,8 @@ namespace ImageViewer.Viewers
         private void OnSettingDeleteBtnClick(string @param)
         {
             Settings.Remove(@param);
+
+            UpdateSetting();
         }
 
         [RelayCommand]
@@ -60,19 +66,13 @@ namespace ImageViewer.Viewers
                 return;
             }
 
-            if (Settings.Any(pair => pair.Value == Key))
+            if (Settings.ContainsKey(Key))
             {
                 System.Windows.MessageBox.Show("중복된 단축키 존재");
                 return;
             }
 
-            if (Settings.ContainsKey(SaveDirPath))
-            {
-                System.Windows.MessageBox.Show("중복된 저장 폴더 존재");
-                return;
-            }
-
-            Settings.Add(SaveDirPath, Key);
+            Settings.Add(Key, SaveDirPath);
             SaveDirPath = string.Empty;
             Key = string.Empty;
 
@@ -81,15 +81,9 @@ namespace ImageViewer.Viewers
 
         private void OpenDirDialog()
         {
-            var folderDialog = new OpenFolderDialog
+            if (_openFolderDialog.ShowDialog() == true)
             {
-                Title = "Select Folder",
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
-            };
-
-            if (folderDialog.ShowDialog() == true)
-            {
-                SaveDirPath = folderDialog.FolderName;
+                SaveDirPath = _openFolderDialog.FolderName;
             }
         }
 
