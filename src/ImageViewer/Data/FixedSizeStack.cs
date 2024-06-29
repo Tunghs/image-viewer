@@ -3,7 +3,7 @@
     public class FixedSizeStack<T>
     {
         private T[] _buffer;
-        private int top = 0;
+        private int top = -1;
 
         public FixedSizeStack(int lenght)
         {
@@ -29,7 +29,7 @@
 
         public T Pop()
         {
-            if (top == 0)
+            if (top == -1)
             {
                 return default;
             }
