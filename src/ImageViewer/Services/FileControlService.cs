@@ -95,7 +95,7 @@ namespace ImageViewer.Services
 
                 _index = _imageList.IndexOf(_imageList[_index]);
 
-                OnFileChanged(new FileChangedEventArgs(_totalCount++, _index, _imageList[_index]));
+                OnFileChanged(new FileChangedEventArgs(++_totalCount, _index, _imageList[_index]));
             }
         }
 
@@ -146,7 +146,7 @@ namespace ImageViewer.Services
                 _cancleStack.Push(_imageList[_index]);
                 _imageList.RemoveAt(_index);
 
-                OnFileChanged(new FileChangedEventArgs(_totalCount--, _index, _imageList[_index]));
+                OnFileChanged(new FileChangedEventArgs(--_totalCount, _index, _imageList[_index]));
             }
         }
 
