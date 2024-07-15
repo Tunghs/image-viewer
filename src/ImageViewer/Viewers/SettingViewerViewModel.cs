@@ -24,21 +24,6 @@ namespace ImageViewer.Viewers
 
         [ObservableProperty]
         private Dictionary<string, string> _settings = new Dictionary<string, string>();
-
-        public bool IsFileCopy;
-        private bool _isFileCopy
-        {
-            get => IsFileCopy;
-            set 
-            { 
-                SetProperty(ref IsFileCopy, value);
-                FileCopyModeChanged?.Invoke(value);
-            }
-        }
-        #endregion
-
-        #region Event
-        public Action<bool> FileCopyModeChanged { get; set; }
         #endregion
 
         [RelayCommand]

@@ -65,6 +65,10 @@
                                 Command="{Binding ButtonClickCommand}"
                                 CommandParameter="OpenSetting"
                                 Header="Hot Key" />
+                            <MenuItem
+                                Command="{Binding ButtonClickCommand}"
+                                CommandParameter="OpenEditor"
+                                Header="Editor" />
                         </ContextMenu>
                     </ui:DropDownButton.Flyout>
                 </ui:DropDownButton>

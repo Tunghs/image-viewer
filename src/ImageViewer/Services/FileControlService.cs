@@ -7,7 +7,6 @@ namespace ImageViewer.Services
     public interface IFileControlService
     {
         event EventHandler<FileChangedEventArgs> Changed;
-        void ChangeFileMoveType(bool isFileCopy);
 
         void LoadImages(string path);
 
@@ -44,7 +43,6 @@ namespace ImageViewer.Services
         private List<string> _imageList = [];
         private int _index;
         private int _totalCount;
-        private bool _isFileCopy = false;
 
         #endregion Fields
 
@@ -55,11 +53,6 @@ namespace ImageViewer.Services
         #endregion Event
 
         #region Public Methods
-        public void ChangeFileMoveType(bool isFileCopy)
-        {
-            _isFileCopy = isFileCopy;
-        }
-
         public void LoadImages(string path)
         {
             string currentImage = null;
@@ -147,15 +140,7 @@ namespace ImageViewer.Services
             if (File.Exists(_imageList[_index]))
             {
                 FileInfo info = new FileInfo(_imageList[_index]);
-                if (_isFileCopy)
-                {
-                    info.CopyTo($@"{dstDirPath}\{info.Name}");
-                }
-                else
-                {
-                    info.MoveTo($@"{dstDirPath}\{info.Name}");
-                }
-
+                info.MoveTo($@"{dstDirPath}\{info.Name}");
                 _cancleStack.Push(_imageList[_index]);
                 _imageList.RemoveAt(_index);
 

@@ -17,7 +17,14 @@
                 <viewers:SettingViewerView DataContext="{Binding}" />
             </DataTemplate>
 
-            <popupSelector:PopupTemplateSelector x:Key="PopupTemplateSelector" SettingsViewerTemplate="{StaticResource SettingsViewerTemplate}" />
+            <DataTemplate x:Key="EditorViewerTemplate" DataType="{x:Type viewers:EditorViewerViewModel}">
+                <viewers:EditorViewerView DataContext="{Binding}" />
+            </DataTemplate>
+
+            <popupSelector:PopupTemplateSelector
+                x:Key="PopupTemplateSelector"
+                EditorViewerTemplate="{StaticResource EditorViewerTemplate}"
+                SettingsViewerTemplate="{StaticResource SettingsViewerTemplate}" />
 
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary Theme="Dark" />

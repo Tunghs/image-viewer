@@ -21,6 +21,7 @@ namespace ImageViewer
         private readonly ISnackbarService _snackbarService;
         private readonly IDialogService _dialogService;
         private SettingViewerViewModel _settingViewerVm;
+        private EditorViewerViewModel _editorViewerVm;
 
         #endregion Fields
 
@@ -34,7 +35,7 @@ namespace ImageViewer
             _controller = fileControlService;
             _controller.Changed += OnControlChanged;
             _settingViewerVm = new SettingViewerViewModel();
-            _settingViewerVm.FileCopyModeChanged += (value => _controller.ChangeFileMoveType(value));
+            _editorViewerVm = new EditorViewerViewModel();
         }
 
         #region UI Properties
@@ -54,7 +55,9 @@ namespace ImageViewer
                 case "OpenSetting":
                     OpenSettingWindow();
                     break;
-
+                case "OpenEditor":
+                    OpenEditorWindow();
+                    break;
                 default:
                     break;
             }
@@ -104,6 +107,11 @@ namespace ImageViewer
         private void OpenSettingWindow()
         {
             _dialogService.Show(_settingViewerVm, "Settings", 500, 650, typeof(PopupWindow));
+        }
+
+        private void OpenEditorWindow()
+        {
+            _dialogService.Show(_editorViewerVm, "Editor", 960, 720, typeof(PopupWindow));
         }
 
         private void OnControlChanged(object? sender, FileChangedEventArgs e)
