@@ -2,6 +2,7 @@
     x:Class="ImageViewer.Viewers.ImageViewerView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:ImageViewer.Controls.Controls;assembly=ImageViewer.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:ImageViewer.Viewers"
@@ -12,7 +13,7 @@
     DataContext="{Binding ImageViewerViewModel, Source={StaticResource ViewModelLocator}}"
     mc:Ignorable="d">
     <Grid AllowDrop="True" Background="Transparent">
-        <Image Source="{Binding ImagePath}" />
+        <controls:ImageViewer ImageSource="{Binding ImagePath}" />
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Drop">
                 <i:InvokeCommandAction Command="{Binding FileDropCommand}" PassEventArgsToCommand="True" />
