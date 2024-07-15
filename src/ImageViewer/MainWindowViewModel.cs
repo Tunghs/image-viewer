@@ -34,6 +34,7 @@ namespace ImageViewer
             _controller = fileControlService;
             _controller.Changed += OnControlChanged;
             _settingViewerVm = new SettingViewerViewModel();
+            _settingViewerVm.FileCopyModeChanged += (value => _controller.ChangeFileMoveType(value));
         }
 
         #region UI Properties
