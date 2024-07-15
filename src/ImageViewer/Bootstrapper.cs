@@ -5,6 +5,7 @@ using ImageViewer.Viewers;
 using ImageViewer.Services;
 using ImageViewer.Data;
 using Wpf.Ui;
+using ImageViewer.Viewers.EditorViewers;
 
 namespace ImageViewer
 {
@@ -33,6 +34,11 @@ namespace ImageViewer
             // Viewer ViewModels
             services.AddTransient<MainWindowViewModel>();
             services.AddTransient<ImageViewerViewModel>();
+
+            // Setting Viewer viewModels
+            services.AddTransient<ImageResizeViewModel>();
+            services.AddTransient<ImageCropViewModel>();
+            services.AddTransient<FileRenameViewModel>();
 
             return services.BuildServiceProvider();
         }

@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:ImageViewer.Viewers"
+    xmlns:editorViewers="clr-namespace:ImageViewer.Viewers.EditorViewers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     d:DesignHeight="450"
@@ -11,9 +11,18 @@
     mc:Ignorable="d">
     <ui:NavigationView IsBackButtonVisible="Collapsed" PaneDisplayMode="LeftFluent">
         <ui:NavigationView.MenuItems>
-            <ui:NavigationViewItem Content="Resize" Icon="{ui:SymbolIcon SelectObject24}" />
-            <ui:NavigationViewItem Content="Crop" Icon="{ui:SymbolIcon Crop24}" />
-            <ui:NavigationViewItem Content="Rename" Icon="{ui:SymbolIcon TextAddT24}" />
+            <ui:NavigationViewItem
+                Content="Resize"
+                Icon="{ui:SymbolIcon SelectObject24}"
+                TargetPageType="{x:Type editorViewers:ImageResizeView}" />
+            <ui:NavigationViewItem
+                Content="Crop"
+                Icon="{ui:SymbolIcon Crop24}"
+                TargetPageType="{x:Type editorViewers:ImageCropView}" />
+            <ui:NavigationViewItem
+                Content="Rename"
+                Icon="{ui:SymbolIcon TextAddT24}"
+                TargetPageType="{x:Type editorViewers:FileRenameView}" />
         </ui:NavigationView.MenuItems>
     </ui:NavigationView>
 </UserControl>

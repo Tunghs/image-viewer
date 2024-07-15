@@ -41,7 +41,7 @@ namespace ImageViewer
         #region UI Properties
 
         [ObservableProperty]
-        private string _title;
+        private string _title = "Image Viewer";
 
         #endregion UI Properties
 
@@ -111,7 +111,7 @@ namespace ImageViewer
 
         private void OpenEditorWindow()
         {
-            _dialogService.Show(_editorViewerVm, "Editor", 960, 720, typeof(PopupWindow));
+            _dialogService.Show(_editorViewerVm, "Editor", 960, 520, typeof(PopupWindow));
         }
 
         private void OnControlChanged(object? sender, FileChangedEventArgs e)
