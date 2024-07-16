@@ -16,7 +16,10 @@ namespace ImageViewer.Components
         public ImageResizeViewModel? ImageResizeViewerViewModel
             => Ioc.Default.GetService<ImageResizeViewModel>();
 
-        public ImageResizeViewModel? ImageResizeViewerViewModel
-    => Ioc.Default.GetService<ImageResizeViewModel>();
+        public ImageCropViewModel? ImageCropViewModel
+            => Ioc.Default.GetService<ImageCropViewModel>();
+
+        public FileRenameViewModel? FileRenameViewModel
+            => Ioc.Default.GetService<FileRenameViewModel>();
     }
 }

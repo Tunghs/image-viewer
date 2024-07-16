@@ -10,5 +10,6 @@ namespace ImageViewer.Viewers.EditorViewers
 {
     public class FileRenameViewModel : ViewModelBase
     {
+
     }
 }
