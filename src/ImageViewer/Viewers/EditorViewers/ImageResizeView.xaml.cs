@@ -24,5 +24,12 @@ namespace ImageViewer.Viewers.EditorViewers
         {
             InitializeComponent();
         }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            RadioButton? btn = e.Source as RadioButton;
+            int a = 0;
+            MessageBox.Show(btn.Content.ToString());
+        }
     }
 }

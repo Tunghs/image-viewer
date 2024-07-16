@@ -34,6 +34,7 @@ namespace ImageViewer
             // Viewer ViewModels
             services.AddTransient<MainWindowViewModel>();
             services.AddTransient<ImageViewerViewModel>();
+            services.AddTransient<EditorViewerViewModel>();
 
             // Setting Viewer viewModels
             services.AddTransient<ImageResizeViewModel>();
