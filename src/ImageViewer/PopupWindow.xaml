@@ -9,6 +9,7 @@
     Width="800"
     Height="450"
     ExtendsContentIntoTitleBar="True"
+    ResizeMode="NoResize"
     WindowBackdropType="Mica"
     WindowCornerPreference="Round"
     WindowStartupLocation="CenterOwner"
@@ -19,7 +20,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ui:TitleBar Title="{Binding Path=Title, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" ForceShutdown="False" />
+        <ui:TitleBar
+            Title="{Binding Path=Title, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+            CanMaximize="False"
+            ForceShutdown="False"
+            ShowMaximize="False"
+            ShowMinimize="False" />
 
         <Grid Grid.Row="1" Background="#272727">
             <ContentControl Content="{Binding PopupVM}" ContentTemplateSelector="{StaticResource PopupTemplateSelector}" />
