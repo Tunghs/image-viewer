@@ -16,7 +16,14 @@
                 <popup:ShortcutKeySettingView DataContext="{Binding}" />
             </DataTemplate>
 
-            <popupSelector:PopupTemplateSelector x:Key="PopupTemplateSelector" ShortcutKeySettingTemplate="{StaticResource ShortcutKeySettingTemplate}" />
+            <DataTemplate x:Key="ImageResizeTemplate" DataType="{x:Type popup:ImageResizeViewModel}">
+                <popup:ImageResizeView DataContext="{Binding}" />
+            </DataTemplate>
+
+            <popupSelector:PopupTemplateSelector
+                x:Key="PopupTemplateSelector"
+                ImageResizeTemplate="{StaticResource ImageResizeTemplate}"
+                ShortcutKeySettingTemplate="{StaticResource ShortcutKeySettingTemplate}" />
 
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary Theme="Dark" />

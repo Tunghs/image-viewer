@@ -22,6 +22,7 @@ namespace ImageViewer.Windows
         private readonly ISnackbarService _snackbarService;
         private readonly IDialogService _dialogService;
         private ShortcutKeySettingViewModel _shortcutKeySettingVm;
+        private ImageResizeViewModel _resizeViewModel;
 
         #endregion Fields
 
@@ -42,6 +43,7 @@ namespace ImageViewer.Windows
             _controller = fileControlService;
             _controller.Changed += OnControlChanged;
             _shortcutKeySettingVm = new ShortcutKeySettingViewModel();
+            _resizeViewModel = new ImageResizeViewModel();
         }
 
         #region Command
@@ -110,7 +112,7 @@ namespace ImageViewer.Windows
 
         private void OpenEditorWindow()
         {
-            _dialogService.Show(_shortcutKeySettingVm, "Editor", 960, 520, typeof(PopupWindow));
+            _dialogService.Show(_resizeViewModel, "Image Resize", 960, 520, typeof(PopupWindow));
         }
 
         private void OnControlChanged(object? sender, FileChangedEventArgs e)
