@@ -3,9 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using ImageViewer.Viewers;
 using ImageViewer.Services;
-using ImageViewer.Data;
 using Wpf.Ui;
-using ImageViewer.Viewers.EditorViewers;
+using ImageViewer.Windows;
 
 namespace ImageViewer
 {
@@ -28,18 +27,12 @@ namespace ImageViewer
             // Services
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IFileControlService, FileControlService>();
-            // Snackbar service 등록
+            // WPF-UI Snackbar service 등록
             services.AddSingleton<ISnackbarService, SnackbarService>();
 
             // Viewer ViewModels
             services.AddTransient<MainWindowViewModel>();
             services.AddTransient<ImageViewerViewModel>();
-            services.AddTransient<EditorViewerViewModel>();
-
-            // Setting Viewer viewModels
-            services.AddTransient<ImageResizeViewModel>();
-            services.AddTransient<ImageCropViewModel>();
-            services.AddTransient<FileRenameViewModel>();
 
             return services.BuildServiceProvider();
         }

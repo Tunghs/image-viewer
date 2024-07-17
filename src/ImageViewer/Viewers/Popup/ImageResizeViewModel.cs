@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
 
-namespace ImageViewer.Viewers.EditorViewers
+namespace ImageViewer.Viewers.Popup
 {
-    public partial class ImageResizeViewModel : ViewModelBase
+    public partial class ImageResizeViewModel : PopupDialogViewModelBase
     {
         #region UI Properties
         [ObservableProperty]
@@ -42,6 +42,5 @@ namespace ImageViewer.Viewers.EditorViewers
             }
         }
         #endregion
-
     }
 }

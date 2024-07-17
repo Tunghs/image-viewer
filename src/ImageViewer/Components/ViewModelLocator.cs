@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 
 using ImageViewer.Viewers;
-using ImageViewer.Viewers.EditorViewers;
+using ImageViewer.Windows;
 
 namespace ImageViewer.Components
 {
@@ -12,17 +12,5 @@ namespace ImageViewer.Components
 
         public ImageViewerViewModel? ImageViewerViewModel
             => Ioc.Default.GetService<ImageViewerViewModel>();
-
-        public EditorViewerViewModel? EditorViewerViewModel
-            => Ioc.Default.GetService<EditorViewerViewModel>();
-
-        public ImageResizeViewModel? ImageResizeViewerViewModel
-            => Ioc.Default.GetService<ImageResizeViewModel>();
-
-        public ImageCropViewModel? ImageCropViewModel
-            => Ioc.Default.GetService<ImageCropViewModel>();
-
-        public FileRenameViewModel? FileRenameViewModel
-            => Ioc.Default.GetService<FileRenameViewModel>();
     }
 }

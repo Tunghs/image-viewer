@@ -3,28 +3,20 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:di="clr-namespace:ImageViewer.Components"
-    xmlns:local="clr-namespace:ImageViewer"
+    xmlns:popup="clr-namespace:ImageViewer.Viewers.Popup"
     xmlns:popupSelector="clr-namespace:ImageViewer.DataTemplateSelectors"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    xmlns:viewers="clr-namespace:ImageViewer.Viewers"
-    StartupUri="MainWindow.xaml">
+    StartupUri="Windows/MainWindow.xaml">
 
     <Application.Resources>
         <ResourceDictionary>
             <di:ViewModelLocator x:Key="ViewModelLocator" />
 
-            <DataTemplate x:Key="SettingsViewerTemplate" DataType="{x:Type viewers:SettingViewerViewModel}">
-                <viewers:SettingViewerView DataContext="{Binding}" />
+            <DataTemplate x:Key="ShortcutKeySettingTemplate" DataType="{x:Type popup:ShortcutKeySettingViewModel}">
+                <popup:ShortcutKeySettingView DataContext="{Binding}" />
             </DataTemplate>
 
-            <DataTemplate x:Key="EditorViewerTemplate" DataType="{x:Type viewers:EditorViewerViewModel}">
-                <viewers:EditorViewerView DataContext="{Binding}" />
-            </DataTemplate>
-
-            <popupSelector:PopupTemplateSelector
-                x:Key="PopupTemplateSelector"
-                EditorViewerTemplate="{StaticResource EditorViewerTemplate}"
-                SettingsViewerTemplate="{StaticResource SettingsViewerTemplate}" />
+            <popupSelector:PopupTemplateSelector x:Key="PopupTemplateSelector" ShortcutKeySettingTemplate="{StaticResource ShortcutKeySettingTemplate}" />
 
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary Theme="Dark" />

@@ -13,23 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ImageViewer.Viewers.EditorViewers
+namespace ImageViewer.Viewers.Popup
 {
     /// <summary>
-    /// ImageResizeView.xaml에 대한 상호 작용 논리
+    /// ShortcutKeySettingView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ImageResizeView : UserControl
+    public partial class ShortcutKeySettingView : Page
     {
-        public ImageResizeView()
+        public ShortcutKeySettingView()
         {
             InitializeComponent();
-        }
-
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            RadioButton? btn = e.Source as RadioButton;
-            int a = 0;
-            MessageBox.Show(btn.Content.ToString());
         }
     }
 }

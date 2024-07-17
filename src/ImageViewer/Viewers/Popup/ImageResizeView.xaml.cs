@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ImageViewer.Viewers.EditorViewers
+namespace ImageViewer.Viewers.Popup
 {
     /// <summary>
-    /// ImageCropView.xaml에 대한 상호 작용 논리
+    /// ImageResizeView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ImageCropView : UserControl
+    public partial class ImageResizeView : Page
     {
-        public ImageCropView()
+        public ImageResizeView()
         {
             InitializeComponent();
         }

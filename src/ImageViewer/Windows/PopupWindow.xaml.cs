@@ -3,7 +3,7 @@ using ImageViewer.PopupWindows;
 
 using Wpf.Ui.Controls;
 
-namespace ImageViewer
+namespace ImageViewer.Windows
 {
     /// <summary>
     /// PopupWindow.xaml에 대한 상호 작용 논리
@@ -18,7 +18,5 @@ namespace ImageViewer
         }
 
         public Action? CloseCallback { get; set; }
-
-
     }
 }

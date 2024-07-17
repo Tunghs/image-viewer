@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using ImageViewer.Bases;
 using ImageViewer.Services;
 using ImageViewer.Viewers;
+using ImageViewer.Viewers.Popup;
 
 using System.IO;
 using System.Windows.Input;
@@ -11,7 +12,7 @@ using System.Windows.Input;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 
-namespace ImageViewer
+namespace ImageViewer.Windows
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
@@ -20,10 +21,16 @@ namespace ImageViewer
         private readonly IFileControlService _controller;
         private readonly ISnackbarService _snackbarService;
         private readonly IDialogService _dialogService;
-        private SettingViewerViewModel _settingViewerVm;
-        private EditorViewerViewModel _editorViewerVm;
+        private ShortcutKeySettingViewModel _shortcutKeySettingVm;
 
         #endregion Fields
+
+        #region UI Properties
+
+        [ObservableProperty]
+        private string _title = "Image Viewer";
+
+        #endregion UI Properties
 
         public MainWindowViewModel(
             IDialogService dialogService,
@@ -34,16 +41,8 @@ namespace ImageViewer
             _snackbarService = snackbarService;
             _controller = fileControlService;
             _controller.Changed += OnControlChanged;
-            _settingViewerVm = new SettingViewerViewModel();
-            _editorViewerVm = new EditorViewerViewModel();
+            _shortcutKeySettingVm = new ShortcutKeySettingViewModel();
         }
-
-        #region UI Properties
-
-        [ObservableProperty]
-        private string _title = "Image Viewer";
-
-        #endregion UI Properties
 
         #region Command
 
@@ -81,9 +80,9 @@ namespace ImageViewer
                     break;
             }
 
-            if (_settingViewerVm.Settings.ContainsKey(e.Key.ToString()))
+            if (_shortcutKeySettingVm.Settings.ContainsKey(e.Key.ToString()))
             {
-                _controller.Move(_settingViewerVm.Settings[e.Key.ToString()]);
+                _controller.Move(_shortcutKeySettingVm.Settings[e.Key.ToString()]);
             }
         }
 
@@ -106,12 +105,12 @@ namespace ImageViewer
 
         private void OpenSettingWindow()
         {
-            _dialogService.Show(_settingViewerVm, "Settings", 500, 650, typeof(PopupWindow));
+            _dialogService.Show(_shortcutKeySettingVm, "Shortcut Key Setting", 500, 650, typeof(PopupWindow));
         }
 
         private void OpenEditorWindow()
         {
-            _dialogService.Show(_editorViewerVm, "Editor", 960, 520, typeof(PopupWindow));
+            _dialogService.Show(_shortcutKeySettingVm, "Editor", 960, 520, typeof(PopupWindow));
         }
 
         private void OnControlChanged(object? sender, FileChangedEventArgs e)
