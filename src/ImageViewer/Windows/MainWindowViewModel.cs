@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 
 using ImageViewer.Bases;
 using ImageViewer.Services;
-using ImageViewer.Viewers;
 using ImageViewer.Viewers.Popup;
 
 using System.IO;
@@ -54,10 +53,10 @@ namespace ImageViewer.Windows
             switch (@param)
             {
                 case "OpenSetting":
-                    OpenSettingWindow();
+                    _dialogService.Show(_shortcutKeySettingVm, "Shortcut Key Setting", 500, 650, typeof(PopupWindow));
                     break;
                 case "OpenEditor":
-                    OpenEditorWindow();
+                    _dialogService.Show(_resizeViewModel, "Image Resize", 960, 520, typeof(PopupWindow));
                     break;
                 default:
                     break;
@@ -104,16 +103,6 @@ namespace ImageViewer.Windows
         #endregion Command
 
         #region Methods
-
-        private void OpenSettingWindow()
-        {
-            _dialogService.Show(_shortcutKeySettingVm, "Shortcut Key Setting", 500, 650, typeof(PopupWindow));
-        }
-
-        private void OpenEditorWindow()
-        {
-            _dialogService.Show(_resizeViewModel, "Image Resize", 960, 520, typeof(PopupWindow));
-        }
 
         private void OnControlChanged(object? sender, FileChangedEventArgs e)
         {
