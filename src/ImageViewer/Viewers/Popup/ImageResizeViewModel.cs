@@ -11,18 +11,47 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
 using System.IO;
+using System.Collections.ObjectModel;
+using ImageViewer.Services;
 
 namespace ImageViewer.Viewers.Popup
 {
     public partial class ImageResizeViewModel : PopupDialogViewModelBase
     {
+        #region Fields
+        private List<string> _supportedExtentions = new List<string>() { ".jpg", ".png", ".bmp", ".jpeg" };
+        private IImageProcessingService _imageProcessingService;
+        #endregion
+
         #region UI Properties
         [ObservableProperty]
         private Visibility _percentageSettingVisibility = Visibility.Collapsed;
 
         [ObservableProperty]
-        private List<string> _images = new List<string>();
+        ObservableCollection<string> _images = new ObservableCollection<string>();
+
+        [ObservableProperty]
+        private int _selectedImageWidth;
+
+        [ObservableProperty]
+        private int _selectedImageHeight;
+
+        private string _selectedImage;
+        public string SelectedImage
+        {
+            get => _selectedImage;
+            set 
+            { 
+                SetProperty(ref _selectedImage, value);
+                UpdateImageInfo(value);
+            }
+        }
         #endregion
+
+        public ImageResizeViewModel(IImageProcessingService imageProcessingService)
+        {
+            _imageProcessingService = imageProcessingService;
+        }
 
         #region Command
         [RelayCommand]
@@ -62,13 +91,26 @@ namespace ImageViewer.Viewers.Popup
             {
                 if (IsDirectory(dropItems[index]))
                 {
+                    var images = Directory.EnumerateFiles(dropItems[index], "*.*", SearchOption.TopDirectoryOnly)
+                        .Where(s => _supportedExtentions.Any(x => s.ToLower().EndsWith(x))).ToList();
 
+                    for (int imgIdx = 0; imgIdx < images.Count; imgIdx++)
+                    {
+                        Images.Add(images[imgIdx]);
+                    }
                 }
                 else
                 {
-                    Images.Add(dropItems[index]);
+                    if (_supportedExtentions.Any(x => dropItems[index].ToLower().EndsWith(x)))
+                        Images.Add(dropItems[index]);
                 }
             }
+        }
+
+        [RelayCommand]
+        public void OnSelectionChanged(string selectedItem)
+        {
+            MessageBox.Show(selectedItem);
         }
         #endregion
 
@@ -90,6 +132,13 @@ namespace ImageViewer.Viewers.Popup
             {
                 return false;
             }
+        }
+
+        private void UpdateImageInfo(string filePath)
+        {
+            var imageSize = _imageProcessingService.GetImageSize(filePath);
+            SelectedImageWidth = imageSize.Item1;
+            SelectedImageHeight = imageSize.Item2;
         }
         #endregion
     }

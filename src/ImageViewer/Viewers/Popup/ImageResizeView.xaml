@@ -84,10 +84,20 @@
                         Grid.Row="2"
                         AllowDrop="True"
                         Background="#272727">
-                        <ListBox ItemsSource="{Binding Images}" />
+                        <ListBox
+                            x:Name="ImageFileList"
+                            ItemsSource="{Binding Images}"
+                            SelectedItem="{Binding SelectedImage, Mode=TwoWay}"
+                            SelectionMode="Single" />
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Drop">
                                 <i:InvokeCommandAction Command="{Binding FileDropCommand}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction
+                                    Command="{Binding SelectionChangedCommand}"
+                                    CommandParameter="{Binding SelectedItems, ElementName=FileDataGrid}"
+                                    PassEventArgsToCommand="True" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Grid>

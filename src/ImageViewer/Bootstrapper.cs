@@ -27,6 +27,7 @@ namespace ImageViewer
             // Services
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IFileControlService, FileControlService>();
+            services.AddSingleton<IImageProcessingService, ImageProcessingService>();
             // WPF-UI Snackbar service 등록
             services.AddSingleton<ISnackbarService, SnackbarService>();
 

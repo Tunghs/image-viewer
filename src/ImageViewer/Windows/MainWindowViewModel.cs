@@ -35,14 +35,15 @@ namespace ImageViewer.Windows
         public MainWindowViewModel(
             IDialogService dialogService,
             ISnackbarService snackbarService,
-            IFileControlService fileControlService)
+            IFileControlService fileControlService,
+            IImageProcessingService imageProcessingService)
         {
             _dialogService = dialogService;
             _snackbarService = snackbarService;
             _controller = fileControlService;
             _controller.Changed += OnControlChanged;
             _shortcutKeySettingVm = new ShortcutKeySettingViewModel();
-            _resizeViewModel = new ImageResizeViewModel();
+            _resizeViewModel = new ImageResizeViewModel(imageProcessingService);
         }
 
         #region Command
