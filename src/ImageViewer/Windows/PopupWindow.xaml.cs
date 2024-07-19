@@ -1,5 +1,4 @@
 ﻿using ImageViewer.Bases;
-using ImageViewer.PopupWindows;
 
 using Wpf.Ui.Controls;
 
@@ -12,7 +11,7 @@ namespace ImageViewer.Windows
     {
         public PopupWindow()
         {
-            this.DataContext = new PopupViewModel();
+            this.DataContext = new PopupWindowViewModel();
             this.Owner = App.Current.MainWindow;
             InitializeComponent();
         }
