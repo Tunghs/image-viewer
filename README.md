@@ -2,3 +2,4 @@
 
 - Image Processing (Crop, Resize)
 - Rename
+- Viewer
