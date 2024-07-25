@@ -109,9 +109,9 @@
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="Image Size " />
-            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="4090" />
+            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding SelectedImageWidth}" />
             <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text=" x " />
-            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="3000" />
+            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding SelectedImageHeight}" />
 
             <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="  Format " />
             <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="PNG" />

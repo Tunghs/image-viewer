@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ImageViewer.Controls\ImageViewer.Controls.csproj" />
+    <ProjectReference Include="..\ImageViewer.Core\ImageViewer.Core.csproj" />
   </ItemGroup>
 
 </Project>
