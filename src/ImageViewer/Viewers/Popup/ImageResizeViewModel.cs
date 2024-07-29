@@ -13,6 +13,8 @@ using System.Windows;
 using System.IO;
 using System.Collections.ObjectModel;
 using ImageViewer.Services;
+using ImageViewer.Data;
+using System.Runtime.CompilerServices;
 
 namespace ImageViewer.Viewers.Popup
 {
@@ -31,10 +33,7 @@ namespace ImageViewer.Viewers.Popup
         ObservableCollection<string> _images = new ObservableCollection<string>();
 
         [ObservableProperty]
-        private int _selectedImageWidth;
-
-        [ObservableProperty]
-        private int _selectedImageHeight;
+        private ImageInfo _selectedImageInfo;
 
         private string _selectedImage;
         public string SelectedImage
@@ -46,6 +45,27 @@ namespace ImageViewer.Viewers.Popup
                 UpdateImageInfo(value);
             }
         }
+
+        [ObservableProperty]
+        private bool _isNewSizeEnabled = true;
+
+        [ObservableProperty]
+        private string _displayResizeWidth;
+
+        [ObservableProperty]
+        private string _displayResizeHeight;
+
+        [ObservableProperty]
+        private int _resizeWidth = 256;
+
+        [ObservableProperty]
+        private int _resizeHeight = 256;
+
+        [ObservableProperty]
+        private int _resizeWidthPercentage = 100;
+
+        [ObservableProperty]
+        private int _resizeHeightPercentage = 100;
         #endregion
 
         public ImageResizeViewModel(IImageProcessingService imageProcessingService)
@@ -54,14 +74,6 @@ namespace ImageViewer.Viewers.Popup
         }
 
         #region Command
-        [RelayCommand]
-        private void OnSizeRbtnClick(RoutedEventArgs e)
-        {
-            RadioButton? btn = e.Source as RadioButton;
-            int a = 0;
-            MessageBox.Show(btn.Content.ToString());
-        }
-
         [RelayCommand]
         private void OnButtonClick(string @param)
         {
@@ -75,6 +87,39 @@ namespace ImageViewer.Viewers.Popup
                     break;
                 default:
                     break;
+            }
+        }
+
+        [RelayCommand]
+        private void OnRadioButtonClick(string @param)
+        {
+            if (param == "Pixel")
+            {
+                IsNewSizeEnabled = true;
+                PercentageSettingVisibility = Visibility.Collapsed;
+
+                if (SelectedImage != null)
+                {
+                    DisplayResizeWidth = ResizeWidth.ToString();
+                    DisplayResizeHeight = ResizeHeight.ToString();
+                }
+            }
+            else if (param == "Percentage")
+            {
+                IsNewSizeEnabled = true;
+                PercentageSettingVisibility = Visibility.Visible;
+
+                if (SelectedImage != null)
+                {
+                    UpdateResizePercentage();
+                }
+            }
+            else
+            {
+                IsNewSizeEnabled = false;
+                string[] spParams = @param.Split(' ');
+                DisplayResizeWidth = spParams[0];
+                DisplayResizeHeight = spParams[2];
             }
         }
 
@@ -136,9 +181,19 @@ namespace ImageViewer.Viewers.Popup
 
         private void UpdateImageInfo(string filePath)
         {
-            var imageSize = _imageProcessingService.GetImageSize(filePath);
-            SelectedImageWidth = imageSize.Item1;
-            SelectedImageHeight = imageSize.Item2;
+            SelectedImageInfo = new ImageInfo(filePath);
+            UpdateResizePercentage();
+        }
+
+        private void UpdateResize()
+        {
+
+        }
+
+        private void UpdateResizePercentage()
+        {
+            DisplayResizeWidth = (SelectedImageInfo.Width * (ResizeWidthPercentage / 100)).ToString();
+            DisplayResizeHeight = (SelectedImageInfo.Height * (ResizeHeightPercentage / 100)).ToString();
         }
         #endregion
     }

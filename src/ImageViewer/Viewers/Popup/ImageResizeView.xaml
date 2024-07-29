@@ -24,10 +24,13 @@
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
-        <Style x:Key="SizeRbtnStyle" TargetType="RadioButton">
+        <Style
+            x:Key="SizeRbtnStyle"
+            BasedOn="{StaticResource DefaultRadioButtonStyle}"
+            TargetType="RadioButton">
             <Setter Property="GroupName" Value="SizeSetting" />
-            <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type RadioButton}}, Path=DataContext.SizeRbtnClickCommand}" />
-            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content, PresentationTraceSources.TraceLevel=High}" />
+            <Setter Property="Command" Value="{Binding DataContext.RadioButtonClickCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+            <Setter Property="CommandParameter" Value="{Binding Content, RelativeSource={RelativeSource self}}" />
         </Style>
     </Page.Resources>
 
@@ -104,20 +107,20 @@
                 </Grid>
             </Border>
 
-            <ui:Image Grid.Column="2" />
+            <ui:Image Grid.Column="2" Source="{Binding SelectedImage}" />
         </Grid>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="Image Size " />
-            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding SelectedImageWidth}" />
+            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding SelectedImageInfo.Width}" />
             <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text=" x " />
-            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding SelectedImageHeight}" />
+            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding SelectedImageInfo.Height}" />
 
             <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="  Format " />
-            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="PNG" />
+            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding SelectedImageInfo.Format}" />
 
             <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="  File Size " />
-            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="98MB" />
+            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding SelectedImageInfo.Size}" />
         </StackPanel>
 
         <Border
@@ -162,7 +165,7 @@
                                 <TextBlock
                                     FontSize="15"
                                     Style="{StaticResource ImageInfoTbkStyle}"
-                                    Text="1280" />
+                                    Text="{Binding DisplayResizeWidth}" />
                                 <TextBlock
                                     FontSize="15"
                                     Style="{StaticResource ImageInfoTbkStyle}"
@@ -170,7 +173,7 @@
                                 <TextBlock
                                     FontSize="15"
                                     Style="{StaticResource ImageInfoTbkStyle}"
-                                    Text="1280" />
+                                    Text="{Binding DisplayResizeHeight}" />
                             </StackPanel>
                             <TextBlock
                                 HorizontalAlignment="Right"
@@ -202,39 +205,80 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <RadioButton Content="Pixel" GroupName="SizeSetting" />
+                                    <RadioButton
+                                        Content="Pixel"
+                                        IsChecked="True"
+                                        Style="{StaticResource SizeRbtnStyle}" />
                                     <RadioButton
                                         Grid.Column="1"
                                         Content="Percentage"
-                                        GroupName="SizeSetting" />
+                                        Style="{StaticResource SizeRbtnStyle}" />
                                 </Grid>
 
-                                <StackPanel
-                                    Grid.Row="2"
-                                    VerticalAlignment="Bottom"
-                                    Orientation="Horizontal">
-                                    <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="Width: " />
-                                    <ui:TextBox Width="100" Padding="2" />
-                                    <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="  Width: " />
-                                    <ui:TextBox Width="100" Padding="2" />
-                                </StackPanel>
+                                <Grid Grid.Row="2" IsEnabled="{Binding IsNewSizeEnabled}">
+                                    <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
+                                        <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="Width: " />
+                                        <ui:NumberBox
+                                            Width="100"
+                                            Padding="5"
+                                            Maximum="100"
+                                            Minimum="1"
+                                            SpinButtonPlacementMode="Hidden"
+                                            Value="{Binding ResizeWidthPercentage}" />
+                                        <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="  Width: " />
+                                        <ui:NumberBox
+                                            Width="100"
+                                            Padding="5"
+                                            Maximum="100"
+                                            Minimum="1"
+                                            SpinButtonPlacementMode="Hidden"
+                                            Value="{Binding ResizeHeightPercentage}" />
+                                    </StackPanel>
 
-                                <StackPanel
+                                    <ui:Button
+                                        Width="80"
+                                        HorizontalAlignment="Right"
+                                        Content="Apply"
+                                        DockPanel.Dock="Left" />
+                                </Grid>
+
+                                <Grid
                                     Grid.Row="2"
-                                    VerticalAlignment="Bottom"
                                     Background="#373737"
-                                    Orientation="Horizontal"
+                                    IsEnabled="{Binding IsNewSizeEnabled}"
                                     Visibility="{Binding PercentageSettingVisibility}">
-                                    <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="Width: " />
-                                    <ui:TextBox Width="80" Padding="3" />
-                                    <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text=" %" />
-                                    <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="  Width: " />
-                                    <ui:TextBox Width="80" Padding="3" />
-                                    <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text=" %" />
-                                </StackPanel>
+                                    <StackPanel
+                                        VerticalAlignment="Bottom"
+                                        Background="#373737"
+                                        Orientation="Horizontal">
+                                        <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="Width: " />
+                                        <ui:NumberBox
+                                            Width="100"
+                                            Padding="5"
+                                            Maximum="100"
+                                            Minimum="1"
+                                            SpinButtonPlacementMode="Hidden"
+                                            Value="{Binding ResizeWidthPercentage}" />
+                                        <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text=" %" />
+                                        <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="  Width: " />
+                                        <ui:NumberBox
+                                            Width="100"
+                                            Padding="5"
+                                            Maximum="100"
+                                            Minimum="1"
+                                            SpinButtonPlacementMode="Hidden"
+                                            Value="{Binding ResizeHeightPercentage}" />
+                                        <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text=" %" />
+                                    </StackPanel>
+
+                                    <ui:Button
+                                        Width="80"
+                                        HorizontalAlignment="Right"
+                                        Content="Apply"
+                                        DockPanel.Dock="Left" />
+                                </Grid>
                             </Grid>
                         </GroupBox>
-
                     </Grid>
 
                     <GroupBox
@@ -262,21 +306,15 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <RadioButton Content="640 x 480" GroupName="SizeSetting" />
+                                <RadioButton Content="640 x 480 " Style="{StaticResource SizeRbtnStyle}" />
                                 <RadioButton
                                     Grid.Column="1"
-                                    Content="800 x 600"
-                                    GroupName="SizeSetting" />
+                                    Content="800 x 600 "
+                                    Style="{StaticResource SizeRbtnStyle}" />
                                 <RadioButton
                                     Grid.Column="2"
-                                    Content="1024 x 768"
-                                    GroupName="SizeSetting">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Checked">
-                                            <i:InvokeCommandAction Command="{Binding SizeRbtnClickCommand}" PassEventArgsToCommand="True" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </RadioButton>
+                                    Content="1024 x 768 "
+                                    Style="{StaticResource SizeRbtnStyle}" />
                             </Grid>
 
                             <Grid Grid.Row="1">
@@ -286,15 +324,15 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <RadioButton Content="1280 x 720 (HD)" GroupName="SizeSetting" />
+                                <RadioButton Content="1280 x 720 (HD)" Style="{StaticResource SizeRbtnStyle}" />
                                 <RadioButton
                                     Grid.Column="1"
                                     Content="1920 x 1080 (FHD)"
-                                    GroupName="SizeSetting" />
+                                    Style="{StaticResource SizeRbtnStyle}" />
                                 <RadioButton
                                     Grid.Column="2 "
                                     Content="3840 x 2160 (4K)"
-                                    GroupName="SizeSetting" />
+                                    Style="{StaticResource SizeRbtnStyle}" />
                             </Grid>
 
                             <Grid Grid.Row="2">
@@ -304,7 +342,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <RadioButton Content="7680 x 4320 (8K)" />
+                                <RadioButton Content="7680 x 4320 (8K)" Style="{StaticResource SizeRbtnStyle}" />
                             </Grid>
                         </Grid>
                     </GroupBox>
