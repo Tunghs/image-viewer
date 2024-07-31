@@ -221,18 +221,18 @@
                                         <ui:NumberBox
                                             Width="100"
                                             Padding="5"
-                                            Maximum="100"
+                                            Maximum="10000"
                                             Minimum="1"
                                             SpinButtonPlacementMode="Hidden"
-                                            Value="{Binding ResizeWidthPercentage}" />
+                                            Value="{Binding ResizeWidth}" />
                                         <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="  Width: " />
                                         <ui:NumberBox
                                             Width="100"
                                             Padding="5"
-                                            Maximum="100"
+                                            Maximum="10000"
                                             Minimum="1"
                                             SpinButtonPlacementMode="Hidden"
-                                            Value="{Binding ResizeHeightPercentage}" />
+                                            Value="{Binding ResizeHeight}" />
                                     </StackPanel>
 
                                     <ui:Button
@@ -258,7 +258,7 @@
                                             Maximum="100"
                                             Minimum="1"
                                             SpinButtonPlacementMode="Hidden"
-                                            Value="{Binding ResizeWidthPercentage}" />
+                                            Value="{Binding ResizePercentage}" />
                                         <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text=" %" />
                                         <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="  Width: " />
                                         <ui:NumberBox
@@ -267,7 +267,7 @@
                                             Maximum="100"
                                             Minimum="1"
                                             SpinButtonPlacementMode="Hidden"
-                                            Value="{Binding ResizeHeightPercentage}" />
+                                            Value="{Binding ResizePercentage}" />
                                         <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text=" %" />
                                     </StackPanel>
 

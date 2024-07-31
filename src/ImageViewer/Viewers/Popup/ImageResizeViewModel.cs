@@ -62,10 +62,7 @@ namespace ImageViewer.Viewers.Popup
         private int _resizeHeight = 256;
 
         [ObservableProperty]
-        private int _resizeWidthPercentage = 100;
-
-        [ObservableProperty]
-        private int _resizeHeightPercentage = 100;
+        private int _resizePercentage = 100;
         #endregion
 
         public ImageResizeViewModel(IImageProcessingService imageProcessingService)
@@ -192,8 +189,8 @@ namespace ImageViewer.Viewers.Popup
 
         private void UpdateResizePercentage()
         {
-            DisplayResizeWidth = (SelectedImageInfo.Width * (ResizeWidthPercentage / 100)).ToString();
-            DisplayResizeHeight = (SelectedImageInfo.Height * (ResizeHeightPercentage / 100)).ToString();
+            DisplayResizeWidth = (SelectedImageInfo.Width * (ResizePercentage / 100)).ToString();
+            DisplayResizeHeight = (SelectedImageInfo.Height * (ResizePercentage / 100)).ToString();
         }
         #endregion
     }

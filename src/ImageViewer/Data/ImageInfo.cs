@@ -161,7 +161,7 @@ namespace ImageViewer.Data
                     Width = (int)img.PhysicalDimension.Width;
                     Height = (int)img.PhysicalDimension.Height;
                     Channel = Image.GetPixelFormatSize(img.PixelFormat) / 8;
-                    Format = Path.GetExtension(fs.Name).ToUpper();
+                    Format = System.IO.Path.GetExtension(fs.Name).ToUpper();
                 }
                 else
                 {
