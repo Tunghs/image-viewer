@@ -267,7 +267,7 @@
                                             Maximum="100"
                                             Minimum="1"
                                             SpinButtonPlacementMode="Hidden"
-                                            Value="{Binding ResizePercentage}" />
+                                            Value="{Binding ResizePercentage}" Cursor="IBeam" />
                                         <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text=" %" />
                                     </StackPanel>
 
