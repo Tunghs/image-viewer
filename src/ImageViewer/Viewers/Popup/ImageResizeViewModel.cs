@@ -192,6 +192,16 @@ namespace ImageViewer.Viewers.Popup
             DisplayResizeWidth = (SelectedImageInfo.Width * (ResizePercentage / 100)).ToString();
             DisplayResizeHeight = (SelectedImageInfo.Height * (ResizePercentage / 100)).ToString();
         }
+
+        private void Resize(int width, int height)
+        {
+            foreach (var image in Images)
+            {
+                // 이미지를 어디에 저장할지 구조 수정 필요.
+                string saveDir = "";
+                _imageProcessingService.Resize(image, saveDir, width, height);
+            }
+        }
         #endregion
     }
 }
