@@ -3,18 +3,11 @@ using CommunityToolkit.Mvvm.Input;
 
 using ImageViewer.Bases;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows;
 using System.IO;
 using System.Collections.ObjectModel;
 using ImageViewer.Services;
 using ImageViewer.Data;
-using System.Runtime.CompilerServices;
 
 namespace ImageViewer.Viewers.Popup
 {
@@ -81,6 +74,9 @@ namespace ImageViewer.Viewers.Popup
                     break;
                 case "AddFolder":
 
+                    break;
+                case "Run":
+                    Resize(ResizeWidth, ResizeHeight);
                     break;
                 default:
                     break;
@@ -182,11 +178,6 @@ namespace ImageViewer.Viewers.Popup
             UpdateResizePercentage();
         }
 
-        private void UpdateResize()
-        {
-
-        }
-
         private void UpdateResizePercentage()
         {
             DisplayResizeWidth = (SelectedImageInfo.Width * (ResizePercentage / 100)).ToString();
@@ -195,10 +186,10 @@ namespace ImageViewer.Viewers.Popup
 
         private void Resize(int width, int height)
         {
+            string time = DateTime.Now.ToString("yyyyMMddHHmmss");
             foreach (var image in Images)
             {
-                // 이미지를 어디에 저장할지 구조 수정 필요.
-                string saveDir = "";
+                string saveDir = Path.GetDirectoryName(image) + $@"\{time}_Resize";
                 _imageProcessingService.Resize(image, saveDir, width, height);
             }
         }

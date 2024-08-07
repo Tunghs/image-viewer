@@ -27,6 +27,7 @@ namespace ImageViewer.Services
 
         public void Resize(string src, string dst, int targetWidht, int targetHeight)
         {
+            _simpleEditor.Resize(src, dst, targetWidht, targetHeight);
         }
     }
 }
