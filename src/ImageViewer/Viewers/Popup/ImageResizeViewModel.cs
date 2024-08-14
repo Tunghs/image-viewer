@@ -8,6 +8,7 @@ using System.IO;
 using System.Collections.ObjectModel;
 using ImageViewer.Services;
 using ImageViewer.Data;
+using Microsoft.Win32;
 
 namespace ImageViewer.Viewers.Popup
 {
@@ -70,10 +71,10 @@ namespace ImageViewer.Viewers.Popup
             switch (@param)
             {
                 case "AddImage":
-
+                    OpenFileDialog();
                     break;
                 case "AddFolder":
-
+                    OpenFolderDialog();
                     break;
                 case "Run":
                     Resize(ResizeWidth, ResizeHeight);
@@ -182,6 +183,52 @@ namespace ImageViewer.Viewers.Popup
         {
             DisplayResizeWidth = (SelectedImageInfo.Width * (ResizePercentage / 100)).ToString();
             DisplayResizeHeight = (SelectedImageInfo.Height * (ResizePercentage / 100)).ToString();
+        }
+
+        private void OpenFileDialog()
+        {
+            var fileDialog = new OpenFileDialog
+            {
+                Title = "Select Image",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                Filter = "image files (*.png, *.jpg, *jpeg, *.bmp)|*.png;*.jpg;*jpeg;*.bmp"
+            };
+
+            if (fileDialog.ShowDialog() == true)
+            {
+                var files = fileDialog.FileNames;
+                for (int imgIdx = 0; imgIdx < files.Length; imgIdx++)
+                {
+                    Images.Add(files[imgIdx]);
+                }
+            }
+        }
+
+        private void OpenFolderDialog()
+        {
+            var folderDialog = new OpenFolderDialog
+            {
+                Title = "Select Folder",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)
+            };
+
+            if (folderDialog.ShowDialog() == true)
+            {
+                var folders = folderDialog.FolderNames;
+                for (int index = 0; index < folders.Length; index++)
+                {
+                    if (IsDirectory(folders[index]))
+                    {
+                        var images = Directory.EnumerateFiles(folders[index], "*.*", SearchOption.TopDirectoryOnly)
+                            .Where(s => _supportedExtentions.Any(x => s.ToLower().EndsWith(x))).ToList();
+
+                        for (int imgIdx = 0; imgIdx < images.Count; imgIdx++)
+                        {
+                            Images.Add(images[imgIdx]);
+                        }
+                    }
+                }
+            }
         }
 
         private void Resize(int width, int height)

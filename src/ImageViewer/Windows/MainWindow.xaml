@@ -62,12 +62,12 @@
                         <ContextMenu>
                             <MenuItem
                                 Command="{Binding ButtonClickCommand}"
-                                CommandParameter="OpenSetting"
+                                CommandParameter="Hotkey"
                                 Header="Hot Key" />
                             <MenuItem
                                 Command="{Binding ButtonClickCommand}"
-                                CommandParameter="OpenEditor"
-                                Header="Editor" />
+                                CommandParameter="Resize"
+                                Header="Resize" />
                         </ContextMenu>
                     </ui:DropDownButton.Flyout>
                 </ui:DropDownButton>
