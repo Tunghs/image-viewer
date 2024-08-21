@@ -7,9 +7,9 @@ using Microsoft.Win32;
 
 using System.Windows.Input;
 
-namespace ImageViewer.Viewers
+namespace ImageViewer.Viewers.Popup
 {
-    public partial class SettingViewerViewModel : PopupDialogViewModelBase
+    public partial class ShortcutKeySettingViewModel : PopupDialogViewModelBase
     {
         #region Fields
         private OpenFolderDialog _openFolderDialog = new OpenFolderDialog() { Title = "Select Save Folder" };
