@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ImageViewer.Viewers
+namespace ImageViewer.Viewers.Popup
 {
     /// <summary>
-    /// SettingViewerView.xaml에 대한 상호 작용 논리
+    /// ShortcutKeySettingView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class SettingViewerView : UserControl
+    public partial class ShortcutKeySettingView : Page
     {
-        public SettingViewerView()
+        public ShortcutKeySettingView()
         {
             InitializeComponent();
         }
