@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace ImageViewer.Controls.Controls
@@ -33,6 +32,7 @@ namespace ImageViewer.Controls.Controls
         #endregion Fields
 
         #region Dependency Properties
+
         public static readonly DependencyProperty ImagePathProperty
              = DependencyProperty.Register(nameof(ImagePath),
                                           typeof(string),
@@ -45,9 +45,11 @@ namespace ImageViewer.Controls.Controls
                                           typeof(double),
                                           typeof(ImageViewer),
                                           new PropertyMetadata(1.0, new PropertyChangedCallback(OnCurrentScaleChanged)));
+
         #endregion Dependency Properties
 
         #region Property Changed
+
         private static void OnImagePathChanged(DependencyObject property, DependencyPropertyChangedEventArgs e)
         {
             var control = property as ImageViewer;
@@ -62,9 +64,11 @@ namespace ImageViewer.Controls.Controls
         {
             // 외부에서 변경 되었을 때 실행
         }
+
         #endregion Property Changed
 
         #region Properties
+
         public string ImagePath
         {
             get { return (string)GetValue(ImagePathProperty); }
@@ -76,6 +80,7 @@ namespace ImageViewer.Controls.Controls
             get { return (double)GetValue(CurrentScaleProperty); }
             set { SetValue(CurrentScaleProperty, value); }
         }
+
         #endregion Properties
 
         public override void OnApplyTemplate()
@@ -101,6 +106,7 @@ namespace ImageViewer.Controls.Controls
         }
 
         #region Methods
+
         private void LoadImage(string filePath)
         {
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
@@ -114,6 +120,7 @@ namespace ImageViewer.Controls.Controls
                 _image.Source = bitmapImage;
             }
         }
+
         #endregion Methods
 
         #region ScrollViewer
@@ -252,6 +259,7 @@ namespace ImageViewer.Controls.Controls
         {
             CurrentScale = INIT_SCALE * scale;
         }
+
         #endregion ViewBox
     }
 }

@@ -56,9 +56,11 @@ namespace ImageViewer.Windows
                 case "Hotkey":
                     _dialogService.Show(_shortcutKeySettingVm, "Shortcut Key Setting", 500, 650, typeof(PopupWindow));
                     break;
+
                 case "Resize":
                     _dialogService.Show(_resizeViewModel, "Image Resize", 960, 520, typeof(PopupWindow));
                     break;
+
                 default:
                     break;
             }
