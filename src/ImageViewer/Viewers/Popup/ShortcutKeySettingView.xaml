@@ -13,10 +13,10 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
 
-    <Grid Margin="5">
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="10" />
+            <RowDefinition Height="20" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -35,7 +35,10 @@
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock VerticalAlignment="Center" Text="Dir Path  " />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Foreground="WhiteSmoke"
+                    Text="Dir Path  " />
                 <TextBox
                     Grid.Column="2"
                     Padding="3"
@@ -55,11 +58,14 @@
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center" Text="Key  " />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Foreground="WhiteSmoke"
+                    Text="Key         " />
                 <TextBox
                     Grid.Column="1"
                     Padding="3"
@@ -101,20 +107,20 @@
                             <Grid Margin="5">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto" />
-                                    <RowDefinition Height="2" />
+                                    <RowDefinition Height="5" />
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
 
-                                <Grid>
+                                <Grid Grid.Row="0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Foreground="Gray" Text="Key: " />
-                                        <TextBlock Text="{Binding Key}" />
-                                    </StackPanel>
+                                    <TextBlock
+                                        VerticalAlignment="Top"
+                                        Foreground="WhiteSmoke"
+                                        Text="[ Key Setting ]" />
 
                                     <ui:Button
                                         Grid.Row="2"
@@ -129,16 +135,37 @@
                                 </Grid>
 
                                 <Grid Grid.Row="2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="2" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
 
-                                    <TextBlock Foreground="Gray" Text="Dir Path: " />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Right"
-                                        Text="{Binding Value}" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Foreground="DarkGray" Text="Key: " />
+                                            <TextBlock Foreground="WhiteSmoke" Text="{Binding Key}" />
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Foreground="DarkGray" Text="Dir Path: " />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Right"
+                                            Foreground="WhiteSmoke"
+                                            Text="{Binding Value}" />
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Border>

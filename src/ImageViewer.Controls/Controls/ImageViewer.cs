@@ -50,9 +50,9 @@ namespace ImageViewer.Controls.Controls
 
         #region Property Changed
 
-        private static void OnImagePathChanged(DependencyObject property, DependencyPropertyChangedEventArgs e)
+        private static void OnImagePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = property as ImageViewer;
+            var control = d as ImageViewer;
 
             if ((string)e.NewValue is null)
                 return;
@@ -63,6 +63,8 @@ namespace ImageViewer.Controls.Controls
         private static void OnCurrentScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // 외부에서 변경 되었을 때 실행
+            var control = d as ImageViewer;
+
         }
 
         #endregion Property Changed
