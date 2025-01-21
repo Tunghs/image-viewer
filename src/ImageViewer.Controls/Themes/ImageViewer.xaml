@@ -97,7 +97,6 @@
                                         RenderOptions.BitmapScalingMode="NearestNeighbor"
                                         RenderOptions.EdgeMode="Aliased"
                                         SnapsToDevicePixels="True"
-                                        Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ImagePath, UpdateSourceTrigger=PropertyChanged}"
                                         Stretch="Fill" />
                                 </Grid>
                             </Viewbox>

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -25,9 +26,6 @@ namespace ImageViewer.Controls.Controls
         private const double INCREASE_SCALE = 1.1;
         private const double DECREASE_SCALE = 0.9;
 
-        //private double _canvasScale;
-        private double _curCursorScale;
-
         private Point? lastDragPoint;
         private Point? lastCenterPositionOnTarget;
         private Point? lastMousePositionOnTarget;
@@ -35,13 +33,11 @@ namespace ImageViewer.Controls.Controls
         #endregion Fields
 
         #region Dependency Properties
-
-        /// <summary>Identifies the <see cref="ImageSource"/> dependency property.</summary>
-        public static readonly DependencyProperty ImageSourceProperty
-            = DependencyProperty.Register(nameof(ImageSource),
-                                          typeof(BitmapSource),
+        public static readonly DependencyProperty ImagePathProperty
+             = DependencyProperty.Register(nameof(ImagePath),
+                                          typeof(string),
                                           typeof(ImageViewer),
-                                          new PropertyMetadata(null, new PropertyChangedCallback(OnImageSourceChanged)));
+                                          new PropertyMetadata(null, new PropertyChangedCallback(OnImagePathChanged)));
 
         /// <summary>Identifies the <see cref="CurrentScale"/> dependency property.</summary>
         public static readonly DependencyProperty CurrentScaleProperty
@@ -49,76 +45,30 @@ namespace ImageViewer.Controls.Controls
                                           typeof(double),
                                           typeof(ImageViewer),
                                           new PropertyMetadata(1.0, new PropertyChangedCallback(OnCurrentScaleChanged)));
-
-        /// <summary>Identifies the <see cref="ImageSource"/> dependency property.</summary>
-        public static readonly DependencyProperty SourceProperty
-            = DependencyProperty.Register(nameof(Source),
-                                          typeof(ImageSource),
-                                          typeof(ImageViewer),
-                                          new PropertyMetadata(null, new PropertyChangedCallback(OnImageSource2Changed)));
-
-        public static readonly DependencyProperty ImagePathProperty
-             = DependencyProperty.Register(nameof(ImagePath),
-                                          typeof(string),
-                                          typeof(ImageViewer),
-                                          new PropertyMetadata(null, new PropertyChangedCallback(OnImageSource3Changed)));
-
         #endregion Dependency Properties
 
         #region Property Changed
-
-        private static void OnImageSourceChanged(DependencyObject property, DependencyPropertyChangedEventArgs e)
+        private static void OnImagePathChanged(DependencyObject property, DependencyPropertyChangedEventArgs e)
         {
-            ImageViewer control = property as ImageViewer;
-
-            if ((BitmapSource)e.NewValue is null)
-                return;
-
-            control.InitImage();
-            //control.SetCanvasScale();
-        }
-
-        private static void OnImageSource2Changed(DependencyObject property, DependencyPropertyChangedEventArgs e)
-        {
-            ImageViewer control = property as ImageViewer;
-
-            if ((ImageSource)e.NewValue is null)
-                return;
-
-            control.InitImage();
-            //control.SetCanvasScale();
-        }
-
-        private static void OnImageSource3Changed(DependencyObject property, DependencyPropertyChangedEventArgs e)
-        {
-            ImageViewer control = property as ImageViewer;
+            var control = property as ImageViewer;
 
             if ((string)e.NewValue is null)
                 return;
 
-            // control.InitImage();
-            //control.SetCanvasScale();
+            control.LoadImage((string)e.NewValue);
         }
 
         private static void OnCurrentScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // 외부에서 변경 되었을 때 실행
         }
-
         #endregion Property Changed
 
         #region Properties
-
-        public BitmapSource ImageSource
+        public string ImagePath
         {
-            get { return (BitmapSource)GetValue(ImageSourceProperty); }
-            set { SetValue(ImageSourceProperty, value); }
-        }        
-        
-        public ImageSource Source
-        {
-            get { return (ImageSource)GetValue(SourceProperty); }
-            set { SetValue(SourceProperty, value); }
+            get { return (string)GetValue(ImagePathProperty); }
+            set { SetValue(ImagePathProperty, value); }
         }
 
         public double CurrentScale
@@ -126,12 +76,6 @@ namespace ImageViewer.Controls.Controls
             get { return (double)GetValue(CurrentScaleProperty); }
             set { SetValue(CurrentScaleProperty, value); }
         }
-        public string ImagePath
-        {
-            get { return (string)GetValue(ImagePathProperty); }
-            set { SetValue(ImagePathProperty, value); }
-        }
-
         #endregion Properties
 
         public override void OnApplyTemplate()
@@ -157,16 +101,19 @@ namespace ImageViewer.Controls.Controls
         }
 
         #region Methods
-
-        private void InitImage()
+        private void LoadImage(string filePath)
         {
-            if (_image == null)
-                return;
-
-            // _image.Source = ImageSource;
-            // _image.Source = Source;
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.StreamSource = stream;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+                _image.Source = bitmapImage;
+            }
         }
-
         #endregion Methods
 
         #region ScrollViewer
@@ -252,7 +199,6 @@ namespace ImageViewer.Controls.Controls
                 return;
 
             CurrentScale *= scale;
-            _curCursorScale *= scale;
         }
 
         private void ScrollViewer_MouseMove(object sender, MouseEventArgs e)
@@ -293,43 +239,19 @@ namespace ImageViewer.Controls.Controls
 
         private void Viewbox_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Source is null)
+            if (ImagePath is null)
                 return;
 
             if (_viewbox is null)
                 return;
 
-            //SetCanvasScale();
             InitSclae();
         }
-
-        //private void SetCanvasScale()
-        //{
-        //    if (_viewbox is null)
-        //        return;
-
-        //    if (Source.Width > Source.Height)
-        //    {
-        //        _canvasScale = _viewbox.Width / Source.Width;
-        //    }
-        //    else if (Source.Width == Source.Height)
-        //    {
-        //        if (_viewbox.Width > _viewbox.Height)
-        //            _canvasScale = _viewbox.Height / Source.Width;
-        //        else
-        //            _canvasScale = _viewbox.Width / Source.Height;
-        //    }
-        //    else
-        //    {
-        //        _canvasScale = _viewbox.Height / Source.Height;
-        //    }
-        //}
 
         private void InitSclae(double scale = 1.0)
         {
             CurrentScale = INIT_SCALE * scale;
         }
-
         #endregion ViewBox
     }
 }
