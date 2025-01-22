@@ -14,12 +14,23 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <Style
+            x:Key="IconBtnStyle"
+            BasedOn="{StaticResource {x:Type ui:Button}}"
+            TargetType="ui:Button">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+
         <Style x:Key="ImageInfoHeaderTbkStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15" />
             <Setter Property="Foreground" Value="DarkGray" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
         <Style x:Key="ImageInfoTbkStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15" />
             <Setter Property="Foreground" Value="WhiteSmoke" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
@@ -31,6 +42,28 @@
             <Setter Property="GroupName" Value="SizeSetting" />
             <Setter Property="Command" Value="{Binding DataContext.RadioButtonClickCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
             <Setter Property="CommandParameter" Value="{Binding Content, RelativeSource={RelativeSource self}}" />
+        </Style>
+
+        <Style
+            x:Key="PercentageNbxStyle"
+            BasedOn="{StaticResource {x:Type ui:NumberBox}}"
+            TargetType="ui:NumberBox">
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="Maximum" Value="100" />
+            <Setter Property="Minimum" Value="1" />
+            <Setter Property="SpinButtonPlacementMode" Value="Hidden" />
+        </Style>
+
+        <Style
+            x:Key="PixelNbxStyle"
+            BasedOn="{StaticResource {x:Type ui:NumberBox}}"
+            TargetType="ui:NumberBox">
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="Maximum" Value="10000" />
+            <Setter Property="Minimum" Value="1" />
+            <Setter Property="SpinButtonPlacementMode" Value="Hidden" />
         </Style>
     </Page.Resources>
 
@@ -58,30 +91,21 @@
 
                     <StackPanel Orientation="Horizontal">
                         <ui:Button
-                            Width="30"
-                            Height="30"
-                            Padding="0"
-                            Command="{Binding ButtonClickCommand}"
-                            CommandParameter="AddImage"
-                            Icon="{ui:SymbolIcon ImageAdd24}" />
+                            Command="{Binding AddImageBtnClickCommand}"
+                            Icon="{ui:SymbolIcon ImageAdd24}"
+                            Style="{StaticResource IconBtnStyle}" />
                         <ui:Button
-                            Width="30"
-                            Height="30"
                             Margin="5,0,0,0"
-                            Padding="0"
-                            Command="{Binding ButtonClickCommand}"
-                            CommandParameter="AddFolder"
-                            Icon="{ui:SymbolIcon FolderAdd28}" />
+                            Command="{Binding AddFolderBtnClickCommand}"
+                            Icon="{ui:SymbolIcon FolderAdd28}"
+                            Style="{StaticResource IconBtnStyle}" />
                     </StackPanel>
 
                     <ui:Button
-                        Width="30"
-                        Height="30"
-                        Padding="0"
                         HorizontalAlignment="Right"
-                        Command="{Binding ButtonClickCommand}"
                         CommandParameter="AddFolder"
-                        Icon="{ui:SymbolIcon Delete28}" />
+                        Icon="{ui:SymbolIcon Delete28}"
+                        Style="{StaticResource IconBtnStyle}" />
 
                     <Grid
                         Grid.Row="2"
@@ -107,7 +131,11 @@
                 </Grid>
             </Border>
 
-            <ui:Image Grid.Column="2" Source="{Binding SelectedImage}" />
+            <Image Grid.Column="2">
+                <Image.Source>
+                    <BitmapImage DecodePixelWidth="200" UriSource="{Binding SelectedImage}" />
+                </Image.Source>
+            </Image>
         </Grid>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
@@ -158,22 +186,10 @@
                                 Margin="0,3,0,0"
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal">
-                                <TextBlock
-                                    FontSize="15"
-                                    Style="{StaticResource ImageInfoHeaderTbkStyle}"
-                                    Text="New Size " />
-                                <TextBlock
-                                    FontSize="15"
-                                    Style="{StaticResource ImageInfoTbkStyle}"
-                                    Text="{Binding DisplayResizeWidth}" />
-                                <TextBlock
-                                    FontSize="15"
-                                    Style="{StaticResource ImageInfoTbkStyle}"
-                                    Text=" x " />
-                                <TextBlock
-                                    FontSize="15"
-                                    Style="{StaticResource ImageInfoTbkStyle}"
-                                    Text="{Binding DisplayResizeHeight}" />
+                                <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="New Size " />
+                                <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding DisplayResizeWidth}" />
+                                <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text=" x " />
+                                <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding DisplayResizeHeight}" />
                             </StackPanel>
                             <TextBlock
                                 HorizontalAlignment="Right"
@@ -201,8 +217,8 @@
 
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
 
                                     <RadioButton
@@ -216,66 +232,42 @@
                                 </Grid>
 
                                 <Grid Grid.Row="2" IsEnabled="{Binding IsNewSizeEnabled}">
-                                    <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
-                                        <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="Width: " />
-                                        <ui:NumberBox
-                                            Width="100"
-                                            Padding="5"
-                                            Maximum="10000"
-                                            Minimum="1"
-                                            SpinButtonPlacementMode="Hidden"
-                                            Value="{Binding ResizeWidth}" />
-                                        <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="  Width: " />
-                                        <ui:NumberBox
-                                            Width="100"
-                                            Padding="5"
-                                            Maximum="10000"
-                                            Minimum="1"
-                                            SpinButtonPlacementMode="Hidden"
-                                            Value="{Binding ResizeHeight}" />
-                                    </StackPanel>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid>
+                                        <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
+                                            <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="Width: " />
+                                            <ui:NumberBox Style="{StaticResource PixelNbxStyle}" Value="{Binding ResizeWidth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                            <TextBlock
+                                                Margin="10,0,0,0"
+                                                Style="{StaticResource ImageInfoHeaderTbkStyle}"
+                                                Text="Height: " />
+                                            <ui:NumberBox Style="{StaticResource PixelNbxStyle}" Value="{Binding ResizeHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Grid Background="#373737" Visibility="{Binding PercentageSettingVisibility}">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Background="#373737"
+                                            Orientation="Horizontal">
+                                            <ui:NumberBox Style="{StaticResource PercentageNbxStyle}" Value="{Binding ResizePercentage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                            <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text=" %" />
+                                        </StackPanel>
+                                    </Grid>
 
                                     <ui:Button
-                                        Width="80"
-                                        HorizontalAlignment="Right"
-                                        Content="Apply"
-                                        DockPanel.Dock="Left" />
-                                </Grid>
-
-                                <Grid
-                                    Grid.Row="2"
-                                    Background="#373737"
-                                    IsEnabled="{Binding IsNewSizeEnabled}"
-                                    Visibility="{Binding PercentageSettingVisibility}">
-                                    <StackPanel
+                                        Grid.Column="2"
+                                        Padding="4"
+                                        HorizontalAlignment="Stretch"
                                         VerticalAlignment="Bottom"
-                                        Background="#373737"
-                                        Orientation="Horizontal">
-                                        <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="Width: " />
-                                        <ui:NumberBox
-                                            Width="100"
-                                            Padding="5"
-                                            Maximum="100"
-                                            Minimum="1"
-                                            SpinButtonPlacementMode="Hidden"
-                                            Value="{Binding ResizePercentage}" />
-                                        <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text=" %" />
-                                        <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="  Width: " />
-                                        <ui:NumberBox
-                                            Width="100"
-                                            Padding="5"
-                                            Maximum="100"
-                                            Minimum="1"
-                                            SpinButtonPlacementMode="Hidden"
-                                            Value="{Binding ResizePercentage}" Cursor="IBeam" />
-                                        <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text=" %" />
-                                    </StackPanel>
-
-                                    <ui:Button
-                                        Width="80"
-                                        HorizontalAlignment="Right"
-                                        Content="Apply"
-                                        DockPanel.Dock="Left" />
+                                        Command="{Binding ResizeApplyBtnClickCommand}"
+                                        Content="   Apply   " />
                                 </Grid>
                             </Grid>
                         </GroupBox>
@@ -348,14 +340,50 @@
                     </GroupBox>
                 </Grid>
 
-                <ui:Button
-                    Grid.Row="2"
-                    Width="200"
-                    Padding="3"
-                    HorizontalAlignment="Right"
-                    Command="{Binding ButtonClickCommand}"
-                    CommandParameter="Run"
-                    Content="Run" />
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Visibility="{Binding ProgressGridVisibility}">
+                        <ProgressBar
+                            x:Name="ValidationTaskProgressBar"
+                            Height="30"
+                            Maximum="{Binding ProgressMaximum}"
+                            Value="{Binding ProgressValue}" />
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="WhiteSmoke"
+                                Text=" ( " />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="WhiteSmoke"
+                                Text="{Binding ElementName=ValidationTaskProgressBar, Path=Value}" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="WhiteSmoke"
+                                Text=" / " />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="WhiteSmoke"
+                                Text="{Binding ElementName=ValidationTaskProgressBar, Path=Maximum}" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="WhiteSmoke"
+                                Text=" )" />
+                        </StackPanel>
+                    </Grid>
+
+                    <ui:Button
+                        Grid.Column="2"
+                        Width="200"
+                        Padding="3"
+                        Command="{Binding RunResizeBtnClickCommand}"
+                        Content="Run" />
+                </Grid>
             </Grid>
         </Border>
     </Grid>
