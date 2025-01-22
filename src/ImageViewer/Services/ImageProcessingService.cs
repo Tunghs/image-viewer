@@ -1,5 +1,7 @@
 ﻿using ImageViewer.Core.ImageProcessing;
 
+using System.Windows.Controls.Primitives;
+
 namespace ImageViewer.Services
 {
     public interface IImageProcessingService
@@ -7,6 +9,8 @@ namespace ImageViewer.Services
         public void Crop(string src, string dst);
         public (int, int) GetImageSize(string filePath);
         public void Resize(string src, string dst, int targetWidht, int targetHeight);
+
+        public void Resize(string src, string dst, double ratio);
     }
 
     public class ImageProcessingService : IImageProcessingService
@@ -28,6 +32,11 @@ namespace ImageViewer.Services
         public void Resize(string src, string dst, int targetWidht, int targetHeight)
         {
             _simpleEditor.Resize(src, dst, targetWidht, targetHeight);
+        }
+
+        public void Resize(string src, string dst, double ratio)
+        {
+            _simpleEditor.Resize(src, dst, ratio);
         }
     }
 }
