@@ -14,8 +14,8 @@
         {
             if (top < _buffer.Length)
             {
-                _buffer[top] = item;
                 top = top + 1;
+                _buffer[top] = item;
             }
             else
             {

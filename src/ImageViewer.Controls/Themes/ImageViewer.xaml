@@ -93,7 +93,7 @@
 
                                 <Grid Background="Transparent">
                                     <Image
-                                        x:Name="PART_BackgroundImageLayer"
+                                        x:Name="PART_Image"
                                         RenderOptions.BitmapScalingMode="NearestNeighbor"
                                         RenderOptions.EdgeMode="Aliased"
                                         SnapsToDevicePixels="True"

@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 
 using ImageViewer.Bases;
 using ImageViewer.Services;
-using ImageViewer.Viewers;
+using ImageViewer.Viewers.Popup;
 
 using System.IO;
 using System.Windows.Input;
@@ -11,7 +11,7 @@ using System.Windows.Input;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 
-namespace ImageViewer
+namespace ImageViewer.Windows
 {
     public partial class MainWindowViewModel : ViewModelBase
     {
@@ -20,28 +20,31 @@ namespace ImageViewer
         private readonly IFileControlService _controller;
         private readonly ISnackbarService _snackbarService;
         private readonly IDialogService _dialogService;
-        private SettingViewerViewModel _settingViewerVm;
+        private ShortcutKeySettingViewModel _shortcutKeySettingVm;
+        private ImageResizeViewModel _resizeViewModel;
 
         #endregion Fields
+
+        #region UI Properties
+
+        [ObservableProperty]
+        private string _title = "Image Viewer";
+
+        #endregion UI Properties
 
         public MainWindowViewModel(
             IDialogService dialogService,
             ISnackbarService snackbarService,
-            IFileControlService fileControlService)
+            IFileControlService fileControlService,
+            IImageProcessingService imageProcessingService)
         {
             _dialogService = dialogService;
             _snackbarService = snackbarService;
             _controller = fileControlService;
             _controller.Changed += OnControlChanged;
-            _settingViewerVm = new SettingViewerViewModel();
+            _shortcutKeySettingVm = new ShortcutKeySettingViewModel();
+            _resizeViewModel = new ImageResizeViewModel(imageProcessingService);
         }
-
-        #region UI Properties
-
-        [ObservableProperty]
-        private string _title;
-
-        #endregion UI Properties
 
         #region Command
 
@@ -50,8 +53,12 @@ namespace ImageViewer
         {
             switch (@param)
             {
-                case "OpenSetting":
-                    OpenSettingWindow();
+                case "Hotkey":
+                    _dialogService.Show(_shortcutKeySettingVm, "Shortcut Key Setting", 500, 650, typeof(PopupWindow));
+                    break;
+
+                case "Resize":
+                    _dialogService.Show(_resizeViewModel, "Image Resize", 960, 520, typeof(PopupWindow));
                     break;
 
                 default:
@@ -77,9 +84,9 @@ namespace ImageViewer
                     break;
             }
 
-            if (_settingViewerVm.Settings.ContainsKey(e.Key.ToString()))
+            if (_shortcutKeySettingVm.Settings.ContainsKey(e.Key.ToString()))
             {
-                _controller.Move(_settingViewerVm.Settings[e.Key.ToString()]);
+                _controller.Move(_shortcutKeySettingVm.Settings[e.Key.ToString()]);
             }
         }
 
@@ -99,11 +106,6 @@ namespace ImageViewer
         #endregion Command
 
         #region Methods
-
-        private void OpenSettingWindow()
-        {
-            _dialogService.Show(_settingViewerVm, "Settings", 500, 650, typeof(PopupWindow));
-        }
 
         private void OnControlChanged(object? sender, FileChangedEventArgs e)
         {
