@@ -1,0 +1,390 @@
+﻿<Page
+    x:Class="ImageViewer.Viewers.Popup.ImageResizeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:ImageViewer.Viewers.Popup"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="ImageResizeView"
+    d:DataContext="{d:DesignInstance Type={x:Type local:ImageResizeViewModel}}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style
+            x:Key="IconBtnStyle"
+            BasedOn="{StaticResource {x:Type ui:Button}}"
+            TargetType="ui:Button">
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+
+        <Style x:Key="ImageInfoHeaderTbkStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Foreground" Value="DarkGray" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="ImageInfoTbkStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Foreground" Value="WhiteSmoke" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style
+            x:Key="SizeRbtnStyle"
+            BasedOn="{StaticResource DefaultRadioButtonStyle}"
+            TargetType="RadioButton">
+            <Setter Property="GroupName" Value="SizeSetting" />
+            <Setter Property="Command" Value="{Binding DataContext.RadioButtonClickCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+            <Setter Property="CommandParameter" Value="{Binding Content, RelativeSource={RelativeSource self}}" />
+        </Style>
+
+        <Style
+            x:Key="PercentageNbxStyle"
+            BasedOn="{StaticResource {x:Type ui:NumberBox}}"
+            TargetType="ui:NumberBox">
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="Maximum" Value="100" />
+            <Setter Property="Minimum" Value="1" />
+            <Setter Property="SpinButtonPlacementMode" Value="Hidden" />
+        </Style>
+
+        <Style
+            x:Key="PixelNbxStyle"
+            BasedOn="{StaticResource {x:Type ui:NumberBox}}"
+            TargetType="ui:NumberBox">
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="Maximum" Value="10000" />
+            <Setter Property="Minimum" Value="1" />
+            <Setter Property="SpinButtonPlacementMode" Value="Hidden" />
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="320" />
+            </Grid.ColumnDefinitions>
+
+            <Border Background="#373737" CornerRadius="5">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="5" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal">
+                        <ui:Button
+                            Command="{Binding AddImageBtnClickCommand}"
+                            Icon="{ui:SymbolIcon ImageAdd24}"
+                            Style="{StaticResource IconBtnStyle}" />
+                        <ui:Button
+                            Margin="5,0,0,0"
+                            Command="{Binding AddFolderBtnClickCommand}"
+                            Icon="{ui:SymbolIcon FolderAdd28}"
+                            Style="{StaticResource IconBtnStyle}" />
+                    </StackPanel>
+
+                    <ui:Button
+                        HorizontalAlignment="Right"
+                        CommandParameter="AddFolder"
+                        Icon="{ui:SymbolIcon Delete28}"
+                        Style="{StaticResource IconBtnStyle}" />
+
+                    <Grid
+                        Grid.Row="2"
+                        AllowDrop="True"
+                        Background="#272727">
+                        <ListBox
+                            x:Name="ImageFileList"
+                            ItemsSource="{Binding Images}"
+                            SelectedItem="{Binding SelectedImage, Mode=TwoWay}"
+                            SelectionMode="Single" />
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Drop">
+                                <i:InvokeCommandAction Command="{Binding FileDropCommand}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction
+                                    Command="{Binding SelectionChangedCommand}"
+                                    CommandParameter="{Binding SelectedItems, ElementName=FileDataGrid}"
+                                    PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Image Grid.Column="2">
+                <Image.Source>
+                    <BitmapImage DecodePixelWidth="200" UriSource="{Binding SelectedImage}" />
+                </Image.Source>
+            </Image>
+        </Grid>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="Image Size " />
+            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding SelectedImageInfo.Width}" />
+            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text=" x " />
+            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding SelectedImageInfo.Height}" />
+
+            <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="  Format " />
+            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding SelectedImageInfo.Format}" />
+
+            <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="  File Size " />
+            <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding SelectedImageInfo.Size}" />
+        </StackPanel>
+
+        <Border
+            Grid.Row="2"
+            Background="#373737"
+            CornerRadius="5">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="26" />
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="5" />
+                        <ColumnDefinition Width="500" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+                            <TextBlock
+                                FontSize="15"
+                                Style="{StaticResource ImageInfoHeaderTbkStyle}"
+                                Text="[" />
+                            <StackPanel
+                                Grid.Row="0"
+                                Margin="0,3,0,0"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="New Size " />
+                                <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding DisplayResizeWidth}" />
+                                <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text=" x " />
+                                <TextBlock Style="{StaticResource ImageInfoTbkStyle}" Text="{Binding DisplayResizeHeight}" />
+                            </StackPanel>
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                FontSize="15"
+                                Style="{StaticResource ImageInfoHeaderTbkStyle}"
+                                Text="]" />
+                        </Grid>
+
+                        <GroupBox
+                            Grid.Row="2"
+                            BorderBrush="#272727"
+                            BorderThickness="0.2">
+                            <GroupBox.Header>
+                                <TextBlock
+                                    FontSize="14"
+                                    Style="{StaticResource ImageInfoTbkStyle}"
+                                    Text=" Set New Size " />
+                            </GroupBox.Header>
+
+                            <Grid Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <RadioButton
+                                        Content="Pixel"
+                                        IsChecked="True"
+                                        Style="{StaticResource SizeRbtnStyle}" />
+                                    <RadioButton
+                                        Grid.Column="1"
+                                        Content="Percentage"
+                                        Style="{StaticResource SizeRbtnStyle}" />
+                                </Grid>
+
+                                <Grid Grid.Row="2" IsEnabled="{Binding IsNewSizeEnabled}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid>
+                                        <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
+                                            <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text="Width: " />
+                                            <ui:NumberBox Style="{StaticResource PixelNbxStyle}" Value="{Binding ResizeWidth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                            <TextBlock
+                                                Margin="10,0,0,0"
+                                                Style="{StaticResource ImageInfoHeaderTbkStyle}"
+                                                Text="Height: " />
+                                            <ui:NumberBox Style="{StaticResource PixelNbxStyle}" Value="{Binding ResizeHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Grid Background="#373737" Visibility="{Binding PercentageSettingVisibility}">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Background="#373737"
+                                            Orientation="Horizontal">
+                                            <ui:NumberBox Style="{StaticResource PercentageNbxStyle}" Value="{Binding ResizePercentage, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                            <TextBlock Style="{StaticResource ImageInfoHeaderTbkStyle}" Text=" %" />
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <ui:Button
+                                        Grid.Column="2"
+                                        Padding="4"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Bottom"
+                                        Command="{Binding ResizeApplyBtnClickCommand}"
+                                        Content="   Apply   " />
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+
+                    <GroupBox
+                        Grid.Column="2"
+                        BorderBrush="#272727"
+                        BorderThickness="0.2">
+                        <GroupBox.Header>
+                            <TextBlock
+                                FontSize="14"
+                                Style="{StaticResource ImageInfoTbkStyle}"
+                                Text=" Some Standard Dimensions (pixels) " />
+                        </GroupBox.Header>
+
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <RadioButton Content="640 x 480 " Style="{StaticResource SizeRbtnStyle}" />
+                                <RadioButton
+                                    Grid.Column="1"
+                                    Content="800 x 600 "
+                                    Style="{StaticResource SizeRbtnStyle}" />
+                                <RadioButton
+                                    Grid.Column="2"
+                                    Content="1024 x 768 "
+                                    Style="{StaticResource SizeRbtnStyle}" />
+                            </Grid>
+
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <RadioButton Content="1280 x 720 (HD)" Style="{StaticResource SizeRbtnStyle}" />
+                                <RadioButton
+                                    Grid.Column="1"
+                                    Content="1920 x 1080 (FHD)"
+                                    Style="{StaticResource SizeRbtnStyle}" />
+                                <RadioButton
+                                    Grid.Column="2 "
+                                    Content="3840 x 2160 (4K)"
+                                    Style="{StaticResource SizeRbtnStyle}" />
+                            </Grid>
+
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <RadioButton Content="7680 x 4320 (8K)" Style="{StaticResource SizeRbtnStyle}" />
+                            </Grid>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Visibility="{Binding ProgressGridVisibility}">
+                        <ProgressBar
+                            x:Name="ValidationTaskProgressBar"
+                            Height="30"
+                            Maximum="{Binding ProgressMaximum}"
+                            Value="{Binding ProgressValue}" />
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="WhiteSmoke"
+                                Text=" ( " />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="WhiteSmoke"
+                                Text="{Binding ElementName=ValidationTaskProgressBar, Path=Value}" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="WhiteSmoke"
+                                Text=" / " />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="WhiteSmoke"
+                                Text="{Binding ElementName=ValidationTaskProgressBar, Path=Maximum}" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="WhiteSmoke"
+                                Text=" )" />
+                        </StackPanel>
+                    </Grid>
+
+                    <ui:Button
+                        Grid.Column="2"
+                        Width="200"
+                        Padding="3"
+                        Command="{Binding RunResizeBtnClickCommand}"
+                        Content="Run" />
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

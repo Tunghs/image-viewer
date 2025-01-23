@@ -1,4 +1,4 @@
-﻿using ImageViewer.Viewers;
+﻿using ImageViewer.Viewers.Popup;
 
 using System.Windows;
 using System.Windows.Controls;
@@ -7,12 +7,18 @@ namespace ImageViewer.DataTemplateSelectors
 {
     public class PopupTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate SettingsViewerTemplate { get; set; }
+        public DataTemplate ShortcutKeySettingTemplate { get; set; }
+        public DataTemplate ImageResizeTemplate { get; set; }
+
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item is SettingViewerViewModel)
+            if (item is ShortcutKeySettingViewModel)
             {
-                return SettingsViewerTemplate;
+                return ShortcutKeySettingTemplate;
+            }
+            else if (item is ImageResizeViewModel)
+            {
+                return ImageResizeTemplate;
             }
             return base.SelectTemplate(item, container);
         }

@@ -53,7 +53,6 @@ namespace ImageViewer.Services
         #endregion Event
 
         #region Public Methods
-
         public void LoadImages(string path)
         {
             string currentImage = null;
@@ -140,9 +139,10 @@ namespace ImageViewer.Services
 
             if (File.Exists(_imageList[_index]))
             {
-                FileInfo info = new FileInfo(_imageList[_index]);
-                info.MoveTo($@"{dstDirPath}\{info.Name}");
+                File.Move(_imageList[_index], $@"{dstDirPath}\{Path.GetFileName(_imageList[_index])}");
 
+                //FileInfo info = new FileInfo(_imageList[_index]);
+                //info.MoveTo($@"{dstDirPath}\{info.Name}");
                 _cancleStack.Push(_imageList[_index]);
                 _imageList.RemoveAt(_index);
 

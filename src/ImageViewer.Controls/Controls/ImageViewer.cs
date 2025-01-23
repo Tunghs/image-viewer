@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -7,25 +8,22 @@ namespace ImageViewer.Controls.Controls
 {
     [TemplatePart(Name = PART_ScrollViewer, Type = typeof(ScrollViewer))]
     [TemplatePart(Name = PART_Viewbox, Type = typeof(Viewbox))]
-    [TemplatePart(Name = PART_BackgroundImageLayer, Type = typeof(Image))]
+    [TemplatePart(Name = PART_Image, Type = typeof(Image))]
     public class ImageViewer : Control
     {
         private const string PART_ScrollViewer = "PART_ScrollViewer";
         private const string PART_Viewbox = "PART_Viewbox";
-        private const string PART_BackgroundImageLayer = "PART_BackgroundImageLayer";
+        private const string PART_Image = "PART_Image";
 
         #region Fields
 
         protected ScrollViewer _scrollViewer;
         protected Viewbox _viewbox;
-        protected Image _backgroundImageLayer;
+        protected Image _image;
 
         private const double INIT_SCALE = 0.96;
         private const double INCREASE_SCALE = 1.1;
         private const double DECREASE_SCALE = 0.9;
-
-        private double _canvasScale;
-        private double _curCursorScale;
 
         private Point? lastDragPoint;
         private Point? lastCenterPositionOnTarget;
@@ -35,12 +33,11 @@ namespace ImageViewer.Controls.Controls
 
         #region Dependency Properties
 
-        /// <summary>Identifies the <see cref="ImageSource"/> dependency property.</summary>
-        public static readonly DependencyProperty ImageSourceProperty
-            = DependencyProperty.Register(nameof(ImageSource),
-                                          typeof(BitmapSource),
+        public static readonly DependencyProperty ImagePathProperty
+             = DependencyProperty.Register(nameof(ImagePath),
+                                          typeof(string),
                                           typeof(ImageViewer),
-                                          new PropertyMetadata(null, new PropertyChangedCallback(OnImageSourceChanged)));
+                                          new PropertyMetadata(null, new PropertyChangedCallback(OnImagePathChanged)));
 
         /// <summary>Identifies the <see cref="CurrentScale"/> dependency property.</summary>
         public static readonly DependencyProperty CurrentScaleProperty
@@ -53,30 +50,31 @@ namespace ImageViewer.Controls.Controls
 
         #region Property Changed
 
-        private static void OnImageSourceChanged(DependencyObject property, DependencyPropertyChangedEventArgs e)
+        private static void OnImagePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ImageViewer control = property as ImageViewer;
+            var control = d as ImageViewer;
 
-            if ((BitmapSource)e.NewValue is null)
+            if ((string)e.NewValue is null)
                 return;
 
-            control.InitImage();
-            control.SetCanvasScale();
+            control.LoadImage((string)e.NewValue);
         }
 
         private static void OnCurrentScaleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // 외부에서 변경 되었을 때 실행
+            var control = d as ImageViewer;
+
         }
 
         #endregion Property Changed
 
         #region Properties
 
-        public BitmapSource ImageSource
+        public string ImagePath
         {
-            get { return (BitmapSource)GetValue(ImageSourceProperty); }
-            set { SetValue(ImageSourceProperty, value); }
+            get { return (string)GetValue(ImagePathProperty); }
+            set { SetValue(ImagePathProperty, value); }
         }
 
         public double CurrentScale
@@ -106,17 +104,23 @@ namespace ImageViewer.Controls.Controls
                 _viewbox.Cursor = Cursors.Arrow;
                 _viewbox.Loaded += Viewbox_Loaded;
             }
-            _backgroundImageLayer = GetTemplateChild(PART_BackgroundImageLayer) as Image;
+            _image = GetTemplateChild(PART_Image) as Image;
         }
 
         #region Methods
 
-        private void InitImage()
+        private void LoadImage(string filePath)
         {
-            if (_backgroundImageLayer == null)
-                return;
-
-            _backgroundImageLayer.Source = ImageSource;
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.StreamSource = stream;
+                bitmapImage.EndInit();
+                bitmapImage.Freeze();
+                _image.Source = bitmapImage;
+            }
         }
 
         #endregion Methods
@@ -204,7 +208,6 @@ namespace ImageViewer.Controls.Controls
                 return;
 
             CurrentScale *= scale;
-            _curCursorScale *= scale;
         }
 
         private void ScrollViewer_MouseMove(object sender, MouseEventArgs e)
@@ -245,36 +248,13 @@ namespace ImageViewer.Controls.Controls
 
         private void Viewbox_Loaded(object sender, RoutedEventArgs e)
         {
-            if (ImageSource is null)
+            if (ImagePath is null)
                 return;
 
             if (_viewbox is null)
                 return;
 
-            SetCanvasScale();
             InitSclae();
-        }
-
-        private void SetCanvasScale()
-        {
-            if (_viewbox is null)
-                return;
-
-            if (ImageSource.PixelWidth > ImageSource.PixelHeight)
-            {
-                _canvasScale = _viewbox.Width / ImageSource.PixelWidth;
-            }
-            else if (ImageSource.PixelWidth == ImageSource.PixelHeight)
-            {
-                if (_viewbox.Width > _viewbox.Height)
-                    _canvasScale = _viewbox.Height / ImageSource.PixelWidth;
-                else
-                    _canvasScale = _viewbox.Width / ImageSource.PixelHeight;
-            }
-            else
-            {
-                _canvasScale = _viewbox.Height / ImageSource.PixelHeight;
-            }
         }
 
         private void InitSclae(double scale = 1.0)

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 
 using ImageViewer.Viewers;
+using ImageViewer.Windows;
 
 namespace ImageViewer.Components
 {

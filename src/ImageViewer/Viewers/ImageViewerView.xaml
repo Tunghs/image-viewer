@@ -13,7 +13,7 @@
     DataContext="{Binding ImageViewerViewModel, Source={StaticResource ViewModelLocator}}"
     mc:Ignorable="d">
     <Grid AllowDrop="True" Background="Transparent">
-        <controls:ImageViewer ImageSource="{Binding ImagePath}" />
+        <controls:ImageViewer ImagePath="{Binding ImagePath}" />
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Drop">
                 <i:InvokeCommandAction Command="{Binding FileDropCommand}" PassEventArgsToCommand="True" />
