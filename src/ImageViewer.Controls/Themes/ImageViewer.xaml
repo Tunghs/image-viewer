@@ -16,10 +16,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:ImageViewer}">
-                    <Grid>
+                    <Grid Focusable="False">
                         <ScrollViewer
                             Name="PART_ScrollViewer"
                             behavior:AdvancedZooming.KeepInCenter="True"
+                            Focusable="False"
                             HorizontalScrollBarVisibility="Visible"
                             VerticalScrollBarVisibility="Auto">
                             <ScrollViewer.Template>

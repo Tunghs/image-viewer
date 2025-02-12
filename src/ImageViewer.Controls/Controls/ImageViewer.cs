@@ -185,6 +185,12 @@ namespace ImageViewer.Controls.Controls
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (String.IsNullOrEmpty(ImagePath))
+            {
+                e.Handled = true;
+                return;
+            }
+
             lastMousePositionOnTarget = Mouse.GetPosition(_viewbox);
             if (e.Delta > 0)
             {
