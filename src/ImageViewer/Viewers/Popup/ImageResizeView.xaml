@@ -75,12 +75,6 @@
         </Grid.RowDefinitions>
 
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="320" />
-            </Grid.ColumnDefinitions>
-
             <Border Background="#373737" CornerRadius="5">
                 <Grid Margin="5">
                     <Grid.RowDefinitions>
@@ -130,12 +124,6 @@
                     </Grid>
                 </Grid>
             </Border>
-
-            <Image Grid.Column="2">
-                <Image.Source>
-                    <BitmapImage DecodePixelWidth="200" UriSource="{Binding SelectedImage}" />
-                </Image.Source>
-            </Image>
         </Grid>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
