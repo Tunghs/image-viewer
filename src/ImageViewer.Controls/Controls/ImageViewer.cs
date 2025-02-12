@@ -64,7 +64,6 @@ namespace ImageViewer.Controls.Controls
         {
             // 외부에서 변경 되었을 때 실행
             var control = d as ImageViewer;
-
         }
 
         #endregion Property Changed

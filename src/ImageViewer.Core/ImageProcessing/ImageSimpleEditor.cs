@@ -4,7 +4,6 @@ namespace ImageViewer.Core.ImageProcessing
 {
     public class ImageSimpleEditor
     {
-
         public (int width, int height) GetImageSize(string filePath)
         {
             using (Mat img = Cv2.ImRead(filePath, ImreadModes.Unchanged))
@@ -18,7 +17,7 @@ namespace ImageViewer.Core.ImageProcessing
             using (Mat img = Cv2.ImRead(srcPath, ImreadModes.Unchanged))
             using (Mat dst = img.Resize(new OpenCvSharp.Size(width, height), 0, 0, InterpolationFlags.Cubic))
             {
-                Cv2.ImWrite(dstPath ,dst);
+                Cv2.ImWrite(dstPath, dst);
             }
         }
 

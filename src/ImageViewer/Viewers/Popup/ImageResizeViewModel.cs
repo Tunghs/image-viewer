@@ -134,7 +134,6 @@ namespace ImageViewer.Viewers.Popup
         [RelayCommand]
         private void OnDeleteElementBtnClick()
         {
-
         }
 
         [RelayCommand]

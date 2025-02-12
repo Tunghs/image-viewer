@@ -12,10 +12,13 @@ namespace ImageViewer.Viewers.Popup
     public partial class ShortcutKeySettingViewModel : PopupDialogViewModelBase
     {
         #region Fields
+
         private OpenFolderDialog _openFolderDialog = new OpenFolderDialog() { Title = "Select Save Folder" };
-        #endregion
+
+        #endregion Fields
 
         #region UI Variable
+
         [ObservableProperty]
         private string _saveDirPath;
 
@@ -24,7 +27,8 @@ namespace ImageViewer.Viewers.Popup
 
         [ObservableProperty]
         private Dictionary<string, string> _settings = new Dictionary<string, string>();
-        #endregion
+
+        #endregion UI Variable
 
         [RelayCommand]
         private void OnButtonClick(string @param)
@@ -34,9 +38,11 @@ namespace ImageViewer.Viewers.Popup
                 case "AddSetting":
                     AddSetting();
                     break;
+
                 case "OpenDirDialog":
                     OpenDirDialog();
                     break;
+
                 default:
                     break;
             }

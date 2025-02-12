@@ -9,7 +9,6 @@ using System.IO;
 using System.Windows.Input;
 
 using Wpf.Ui;
-using Wpf.Ui.Controls;
 
 namespace ImageViewer.Windows
 {

@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+
+using ImageViewer.Services;
+using ImageViewer.Viewers;
+using ImageViewer.Windows;
+
 using Microsoft.Extensions.DependencyInjection;
 
-using ImageViewer.Viewers;
-using ImageViewer.Services;
 using Wpf.Ui;
-using ImageViewer.Windows;
 
 namespace ImageViewer
 {
@@ -28,6 +30,7 @@ namespace ImageViewer
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IFileControlService, FileControlService>();
             services.AddSingleton<IImageProcessingService, ImageProcessingService>();
+
             // WPF-UI Snackbar service 등록
             services.AddSingleton<ISnackbarService, SnackbarService>();
 

@@ -43,8 +43,6 @@ namespace ImageViewer.Viewers
             _controller.LoadImages(dropItem);
         }
 
-
-
         #region Private Methods
 
         private void OnControlChanged(object? sender, FileChangedEventArgs e)
