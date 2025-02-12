@@ -111,14 +111,14 @@ namespace ImageViewer.Windows
         {
             Title = $"[{e.Index + 1}/{e.TotalCount}] {Path.GetFileName(e.FileName)}";
 
-            if (e.Index == 0)
-            {
-                _snackbarService.Show("Information", "This is the first image.", ControlAppearance.Secondary, new SymbolIcon(SymbolRegular.Info28), TimeSpan.FromSeconds(2));
-            }
-            else if (e.Index == e.TotalCount - 1)
-            {
-                _snackbarService.Show("Information", "This is the last image.", ControlAppearance.Secondary, new SymbolIcon(SymbolRegular.Info28), TimeSpan.FromSeconds(2));
-            }
+            //if (e.Index == 0)
+            //{
+            //    _snackbarService.Show("Information", "This is the first image.", ControlAppearance.Secondary, new SymbolIcon(SymbolRegular.Info28), TimeSpan.FromSeconds(2));
+            //}
+            //else if (e.Index == e.TotalCount - 1)
+            //{
+            //    _snackbarService.Show("Information", "This is the last image.", ControlAppearance.Secondary, new SymbolIcon(SymbolRegular.Info28), TimeSpan.FromSeconds(2));
+            //}
         }
 
         #endregion Methods
