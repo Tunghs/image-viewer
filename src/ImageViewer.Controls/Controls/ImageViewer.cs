@@ -206,7 +206,7 @@ namespace ImageViewer.Controls.Controls
         private void ChangeScale(double scale)
         {
             var tempScale = CurrentScale * scale;
-            if (tempScale > 40.0)
+            if (tempScale > 1000.0)
                 return;
 
             if (tempScale < 0.8)
